@@ -5,6 +5,7 @@
  */
 package produitbio;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,29 +23,6 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
      */
     public Liste_utilisateurs() {
         initComponents();
-        DefaultTableModel dtm = new DefaultTableModel();
-        //dtm.addColumn("Id");
-        dtm.addColumn("Nom");
-        dtm.addColumn("Prenom");
-        dtm.addColumn("Login");
-        //dtm.addColumn("Pwd");
-        //dtm.addColumn("Profil");
-        
-        try {
-                //connexion à la base de données
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                    co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=latin1","root","");
-                    st = co.createStatement();    
-                    rs = st.executeQuery("SELECT nom_utilisateur,prenom_utilisateur,login_utilisateur FROM utilisateur");
-                    System.out.println("OK");
-                    while(rs.next())
-                    {
-                        dtm.addRow(new Object[]{rs.getObject(1),rs.getObject(2),rs.getObject(3)});
-                    }
-                    liste_user_table.setModel(dtm);
-        } catch (Exception e) {
-            System.out.println("ERROR");
-        }
     }
 
     /**
@@ -56,16 +34,20 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("biomarket?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
+        utilisateurQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT u FROM Utilisateur u");
+        utilisateurList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : utilisateurQuery.getResultList();
+        utilisateurQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT u FROM Utilisateur u");
+        utilisateurList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : utilisateurQuery1.getResultList();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        liste_user_table = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        essai = new javax.swing.JPanel();
         ajout_user = new produitbio.Button_perso();
+        supprimer = new produitbio.Button_perso();
 
         setBackground(new java.awt.Color(217, 217, 217));
         setLayout(new java.awt.BorderLayout());
@@ -77,35 +59,6 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
 
         jPanel4.setBackground(new java.awt.Color(217, 217, 217));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jScrollPane1.setBackground(new java.awt.Color(217, 217, 217));
-
-        liste_user_table.setBackground(new java.awt.Color(217, 217, 217));
-        liste_user_table.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        liste_user_table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nom", "Prenom", "Login"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        liste_user_table.setIntercellSpacing(new java.awt.Dimension(3, 3));
-        liste_user_table.setPreferredSize(new java.awt.Dimension(500, 0));
-        jScrollPane1.setViewportView(liste_user_table);
-        liste_user_table.getAccessibleContext().setAccessibleName("");
-        liste_user_table.getAccessibleContext().setAccessibleDescription("");
-
-        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 1230, 500));
-
         jPanel2.add(jPanel4, java.awt.BorderLayout.CENTER);
 
         jPanel5.setBackground(new java.awt.Color(217, 217, 217));
@@ -114,17 +67,17 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Liste des utilisateurs");
 
-        jPanel3.setBackground(new java.awt.Color(217, 217, 217));
-        jPanel3.setToolTipText("");
+        essai.setBackground(new java.awt.Color(217, 217, 217));
+        essai.setToolTipText("");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1074, Short.MAX_VALUE)
+        javax.swing.GroupLayout essaiLayout = new javax.swing.GroupLayout(essai);
+        essai.setLayout(essaiLayout);
+        essaiLayout.setHorizontalGroup(
+            essaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1010, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        essaiLayout.setVerticalGroup(
+            essaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
@@ -148,6 +101,26 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
             }
         });
 
+        supprimer.setBackground(new java.awt.Color(255, 102, 102));
+        supprimer.setForeground(new java.awt.Color(51, 51, 51));
+        supprimer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-supprimer-pour-toujours-25.png"))); // NOI18N
+        supprimer.setText("Supprimer");
+        supprimer.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
+        supprimer.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        supprimer.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        supprimer.setIconTextGap(5);
+        supprimer.setRadius(18);
+        supprimer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                supprimerMouseClicked(evt);
+            }
+        });
+        supprimer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                supprimerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -155,21 +128,28 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ajout_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(ajout_user, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(supprimer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1065, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(61, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(124, 124, 124)
+                        .addComponent(essai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ajout_user, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(essai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ajout_user, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(supprimer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -187,29 +167,44 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ajout_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajout_userMouseClicked
-
+     essai.setBackground(Color.red);
         
-
+        //dtm.addColumn("Id");
+        
     }//GEN-LAST:event_ajout_userMouseClicked
 
     private void ajout_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajout_userActionPerformed
 
     }//GEN-LAST:event_ajout_userActionPerformed
 
+    private void supprimerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supprimerMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_supprimerMouseClicked
+
+    private void supprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supprimerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_supprimerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private produitbio.Button_perso ajout_user;
+    private javax.persistence.EntityManager entityManager;
+    private javax.swing.JPanel essai;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    javax.swing.JTable liste_user_table;
+    private produitbio.Button_perso supprimer;
+    private java.util.List<produitbio.Utilisateur> utilisateurList;
+    private java.util.List<produitbio.Utilisateur> utilisateurList1;
+    private javax.persistence.Query utilisateurQuery;
+    private javax.persistence.Query utilisateurQuery1;
     // End of variables declaration//GEN-END:variables
     Connection co;
     Statement st;
-    ResultSet rs;
+    ResultSet resultat;
+    DefaultTableModel dtm = new DefaultTableModel();
+
 }
