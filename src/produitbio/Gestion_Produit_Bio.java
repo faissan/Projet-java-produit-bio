@@ -6,10 +6,12 @@
 package produitbio;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,6 +25,8 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
      */
     public Gestion_Produit_Bio() {
         initComponents();
+        Image img = new ImageIcon(this.getClass().getResource("logo_bket.png")).getImage();
+        this.setIconImage(img);
         /*DefaultTableModel dtmP = new DefaultTableModel();
         dtmP.addColumn("Nom");
         dtmP.addColumn("Prenom");

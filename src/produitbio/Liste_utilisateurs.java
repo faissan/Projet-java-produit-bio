@@ -23,6 +23,28 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
      */
     public Liste_utilisateurs() {
         initComponents();
+        dtm.addColumn("Nom");
+        dtm.addColumn("Prenom");
+        dtm.addColumn("Login");
+        //dtm.addColumn("Pwd");
+        //dtm.addColumn("Profil");
+        
+        try {
+                //connexion à la base de données
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                    co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=latin1","root","");
+                    st = co.createStatement();    
+                    resultat = st.executeQuery("SELECT nom_utilisateur,prenom_utilisateur,login_utilisateur FROM utilisateur");
+                    System.out.println("OK");
+                    while(resultat.next())
+                    {
+                        dtm.addRow(new Object[]{resultat.getObject(1),resultat.getObject(2),resultat.getObject(3)});
+                    }                    
+                    liste_user_table.setModel(dtm);
+        } catch (Exception e) {
+            System.out.println("ERROR");
+        }
+        
     }
 
     /**
@@ -34,14 +56,11 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("biomarket?zeroDateTimeBehavior=convertToNullPU").createEntityManager();
-        utilisateurQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT u FROM Utilisateur u");
-        utilisateurList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : utilisateurQuery.getResultList();
-        utilisateurQuery1 = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT u FROM Utilisateur u");
-        utilisateurList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : utilisateurQuery1.getResultList();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        liste_user_table = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
@@ -59,6 +78,22 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
 
         jPanel4.setBackground(new java.awt.Color(217, 217, 217));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane1.setBackground(new java.awt.Color(217, 217, 217));
+
+        liste_user_table.setBackground(new java.awt.Color(217, 217, 217));
+        liste_user_table.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        liste_user_table.setModel(dtm);
+        liste_user_table.setColumnSelectionAllowed(true);
+        liste_user_table.setIntercellSpacing(new java.awt.Dimension(3, 3));
+        liste_user_table.setPreferredSize(new java.awt.Dimension(500, 0));
+        jScrollPane1.setViewportView(liste_user_table);
+        liste_user_table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        liste_user_table.getAccessibleContext().setAccessibleName("");
+        liste_user_table.getAccessibleContext().setAccessibleDescription("");
+
+        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 1230, 500));
+
         jPanel2.add(jPanel4, java.awt.BorderLayout.CENTER);
 
         jPanel5.setBackground(new java.awt.Color(217, 217, 217));
@@ -174,7 +209,8 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
     }//GEN-LAST:event_ajout_userMouseClicked
 
     private void ajout_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajout_userActionPerformed
-
+        new CreateUser().setVisible(true);
+                   //this.dispose();
     }//GEN-LAST:event_ajout_userActionPerformed
 
     private void supprimerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supprimerMouseClicked
@@ -188,19 +224,16 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private produitbio.Button_perso ajout_user;
-    private javax.persistence.EntityManager entityManager;
     private javax.swing.JPanel essai;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    javax.swing.JTable liste_user_table;
     private produitbio.Button_perso supprimer;
-    private java.util.List<produitbio.Utilisateur> utilisateurList;
-    private java.util.List<produitbio.Utilisateur> utilisateurList1;
-    private javax.persistence.Query utilisateurQuery;
-    private javax.persistence.Query utilisateurQuery1;
     // End of variables declaration//GEN-END:variables
     Connection co;
     Statement st;
