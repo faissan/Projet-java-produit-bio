@@ -27,28 +27,24 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         initComponents();
         Image img = new ImageIcon(this.getClass().getResource("logo_bket.png")).getImage();
         this.setIconImage(img);
-        /*DefaultTableModel dtmP = new DefaultTableModel();
-        dtmP.addColumn("Nom");
-        dtmP.addColumn("Prenom");
-        dtmP.addColumn("Login");
+        //Chargement du tableau de bord
+        content_view_layout.removeAll();
+        content_view_layout.add(new Tableau_de_bord());
+        //Activation du bouton de tableau de bord
         
-         try {
-                //connexion à la base de données
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                    co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=latin1","root","");
-                    st = co.createStatement();    
-                    rs = st.executeQuery("SELECT nom_utilisateur,prenom_utilisateur,login_utilisateur FROM utilisateur");
-                    System.out.println("OK");
-                    while(rs.next())
-                    {
-                        dtmP.addRow(new Object[]{rs.getObject(1),rs.getObject(2),rs.getObject(3)});
-                    }
-                    liste_utilisateurs_jpanel.liste_user_table.setModel(dtmP);
-        } catch (Exception e) {
-            System.out.println("ERROR");
-        }
-        */
+        tableau_de_bord.setBackground(colorbgnew);
         
+        //Changement des autres boutons
+        
+        gestion_user.setBackground(colorbgold);       
+        gestion_produit.setBackground(colorbgold);        
+        gestion_client.setBackground(colorbgold);        
+        gestion_ventes.setBackground(colorbgold);       
+        gestion_fournisseurs.setBackground(colorbgold);
+        parametre.setBackground(colorbgold);
+        
+        pack();
+         
     }
 
     /**
@@ -92,7 +88,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         footer_layout = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         content_view_layout = new javax.swing.JPanel();
-        liste_utilisateurs1 = new produitbio.Liste_utilisateurs();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -401,8 +396,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
 
         content_view_layout.setBackground(new java.awt.Color(217, 217, 217));
         content_view_layout.setLayout(new java.awt.BorderLayout());
-        content_view_layout.add(liste_utilisateurs1, java.awt.BorderLayout.CENTER);
-
         jPanel2.add(content_view_layout, java.awt.BorderLayout.CENTER);
 
         content_dash_layout.add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -454,29 +447,10 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_fournisseurs.setBackground(colorbgold);
         parametre.setBackground(colorbgold);
         
-        /*
-        DefaultTableModel dtmP = new DefaultTableModel();
-        dtmP.addColumn("Nom");
-        dtmP.addColumn("Prenom");
-        dtmP.addColumn("Login");
-                                
-                try {
-                //connexion à la base de données
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                    co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=latin1","root","");
-                    st = co.createStatement();    
-                    rs = st.executeQuery("SELECT nom_utilisateur,prenom_utilisateur,login_utilisateur FROM utilisateur");
-                    System.out.println("OK");
-                    while(rs.next())
-                    {
-                        dtmP.addRow(new Object[]{rs.getObject(1),rs.getObject(2),rs.getObject(3)});
-                    }
-                    liste_utilisateurs_jpanel.liste_user_table.setModel(dtmP);
-        } catch (Exception e) {
-            System.out.println("ERROR");
-        }
-        */
-        
+        //Chargement du tableau de bord
+        content_view_layout.removeAll();
+        content_view_layout.add(new Tableau_de_bord());
+        pack();
     }//GEN-LAST:event_tableau_de_bordMouseClicked
 
     private void gestion_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gestion_userMouseClicked
@@ -490,16 +464,14 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_fournisseurs.setBackground(colorbgold);        
         parametre.setBackground(colorbgold);
         
+        //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
+        content_view_layout.removeAll();
         Liste_utilisateurs jpanel_liste_user = new Liste_utilisateurs();
         
-        
-               
+        //Affichage du jpanel dans le content_view_layout
         content_view_layout.add(jpanel_liste_user);
         
-
-        //Affichage du jpanel dans le content_view_layout
         pack();
-        //setLocationRelativeTo(null);
     }//GEN-LAST:event_gestion_userMouseClicked
 
     private void gestion_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gestion_produitMouseClicked
@@ -513,6 +485,14 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_ventes.setBackground(colorbgold);       
         gestion_fournisseurs.setBackground(colorbgold);
         parametre.setBackground(colorbgold);
+        
+        //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
+        content_view_layout.removeAll();
+        
+        //Reactualiser l'affichage
+        revalidate();
+        //pack();
+
     }//GEN-LAST:event_gestion_produitMouseClicked
 
     private void gestion_clientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gestion_clientMouseClicked
@@ -526,6 +506,12 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_ventes.setBackground(colorbgold);       
         gestion_fournisseurs.setBackground(colorbgold);
         parametre.setBackground(colorbgold);
+        
+        //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
+        content_view_layout.removeAll();
+        
+        //Reactualiser l'affichage
+        pack();
     }//GEN-LAST:event_gestion_clientMouseClicked
 
     private void gestion_ventesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gestion_ventesMouseClicked
@@ -539,6 +525,14 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_client.setBackground(colorbgold);       
         gestion_fournisseurs.setBackground(colorbgold);
         parametre.setBackground(colorbgold);
+        
+        //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
+        content_view_layout.removeAll();
+        
+        
+        //Reactualiser l'affichage
+        pack();
+        
     }//GEN-LAST:event_gestion_ventesMouseClicked
 
     private void gestion_fournisseursMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gestion_fournisseursMouseClicked
@@ -552,6 +546,12 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_client.setBackground(colorbgold);       
         gestion_ventes.setBackground(colorbgold);
         parametre.setBackground(colorbgold);
+        
+        //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
+        content_view_layout.removeAll();
+        
+        //Reactualiser l'affichage
+        pack();        
     }//GEN-LAST:event_gestion_fournisseursMouseClicked
 
     private void parametreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_parametreMouseClicked
@@ -565,6 +565,13 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_client.setBackground(colorbgold);       
         gestion_ventes.setBackground(colorbgold);
         gestion_fournisseurs.setBackground(colorbgold);
+        
+        //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
+        content_view_layout.removeAll();
+        
+        
+        //Reactualiser l'affichage
+        pack();
     }//GEN-LAST:event_parametreMouseClicked
 
     /**
@@ -634,7 +641,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTextField jTextField1;
-    private produitbio.Liste_utilisateurs liste_utilisateurs1;
     private produitbio.Button_perso parametre;
     private produitbio.Button_perso tableau_de_bord;
     // End of variables declaration//GEN-END:variables

@@ -84,6 +84,7 @@ public class CreateUser extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         profil = new javax.swing.JComboBox();
+        annuler = new produitbio.Button_perso();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -253,6 +254,23 @@ public class CreateUser extends javax.swing.JFrame {
         profil.setBackground(new java.awt.Color(235, 235, 235));
         profil.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
 
+        annuler.setBackground(new java.awt.Color(0, 169, 54));
+        annuler.setForeground(new java.awt.Color(255, 255, 255));
+        annuler.setText("Annuler");
+        annuler.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        annuler.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        annuler.setRadius(40);
+        annuler.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                annulerMouseClicked(evt);
+            }
+        });
+        annuler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                annulerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -295,9 +313,10 @@ public class CreateUser extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(profil, 0, 304, Short.MAX_VALUE)
                             .addComponent(message_error, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(ajouter, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(46, 46, 46)))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(ajouter, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(annuler, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(10, 10, 10))
         );
         jPanel1Layout.setVerticalGroup(
@@ -328,7 +347,9 @@ public class CreateUser extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(message_error, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ajouter, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ajouter, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(annuler, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16)
                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -425,6 +446,9 @@ public class CreateUser extends javax.swing.JFrame {
                     mot_de_passe.setText("");
                     message_error.setForeground(Color.GREEN);
                     message_error.setText("Données bien enregistrées");
+                    
+                    Thread.sleep(2000);
+                    this.dispose();
 
                 } catch (Exception e) {
                     message_error.setText("Erreur");
@@ -438,6 +462,14 @@ public class CreateUser extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_ajouterMouseClicked
+
+    private void annulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annulerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_annulerActionPerformed
+
+    private void annulerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_annulerMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_annulerMouseClicked
 
     /**
      * @param args the command line arguments
@@ -477,6 +509,7 @@ public class CreateUser extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private produitbio.Button_perso ajouter;
+    private produitbio.Button_perso annuler;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

@@ -28,6 +28,8 @@ public class creation_utilisateur extends javax.swing.JFrame {
     private void initComponents() {
 
         button_perso2 = new produitbio.Button_perso();
+        jButton1 = new javax.swing.JButton();
+        button_perso1 = new produitbio.Button_perso();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -37,21 +39,42 @@ public class creation_utilisateur extends javax.swing.JFrame {
         button_perso2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
         button_perso2.setRadius(28);
 
+        jButton1.setText("jButton1");
+        jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED, java.awt.Color.lightGray, java.awt.Color.red, java.awt.Color.pink, java.awt.Color.darkGray));
+
+        button_perso1.setForeground(new java.awt.Color(51, 51, 51));
+        button_perso1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-dashboard-25.png"))); // NOI18N
+        button_perso1.setText("AJOUTER");
+        button_perso1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        button_perso1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        button_perso1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        button_perso1.setIconTextGap(20);
+        button_perso1.setRadius(25);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(94, 94, 94)
-                .addComponent(button_perso2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(button_perso2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                        .addComponent(button_perso1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(104, 104, 104))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addComponent(button_perso2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(212, Short.MAX_VALUE))
+                .addGap(64, 64, 64)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button_perso1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(137, Short.MAX_VALUE))
         );
 
         pack();
@@ -93,6 +116,8 @@ public class creation_utilisateur extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private produitbio.Button_perso button_perso1;
     private produitbio.Button_perso button_perso2;
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }
