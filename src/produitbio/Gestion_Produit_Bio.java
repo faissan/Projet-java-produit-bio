@@ -81,7 +81,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        jXSearchField1 = new org.jdesktop.swingx.JXSearchField();
         jPanel13 = new javax.swing.JPanel();
         content_dash_layout = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -364,8 +364,16 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         jPanel14.setPreferredSize(new java.awt.Dimension(400, 0));
         jPanel14.setLayout(new java.awt.BorderLayout());
 
-        jTextField1.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel14.add(jTextField1, java.awt.BorderLayout.CENTER);
+        jXSearchField1.setToolTipText("Rechercher");
+        jXSearchField1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
+        jXSearchField1.setHighlighter(null);
+        jXSearchField1.setLayoutStyle(org.jdesktop.swingx.JXSearchField.LayoutStyle.MAC);
+        jXSearchField1.setPrompt("Rechercher");
+        jXSearchField1.setPromptBackround(java.awt.Color.white);
+        jXSearchField1.setPromptFontStyle(new java.lang.Integer(0));
+        jXSearchField1.setPromptForeground(new java.awt.Color(102, 102, 102));
+        jXSearchField1.setRecentSearchesSaveKey("");
+        jPanel14.add(jXSearchField1, java.awt.BorderLayout.CENTER);
 
         jPanel4.add(jPanel14, java.awt.BorderLayout.LINE_START);
 
@@ -643,7 +651,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jTextField1;
+    private org.jdesktop.swingx.JXSearchField jXSearchField1;
     private produitbio.Button_perso parametre;
     private produitbio.Button_perso tableau_de_bord;
     // End of variables declaration//GEN-END:variables

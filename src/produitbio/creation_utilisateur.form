@@ -36,7 +36,7 @@
               <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="333" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
               <Component id="jXSearchField1" min="-2" pref="274" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -52,9 +52,9 @@
                   <Component id="jButton1" min="-2" pref="76" max="-2" attributes="0"/>
                   <Component id="button_perso1" min="-2" pref="41" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
-              <Component id="jXSearchField1" min="-2" pref="43" max="-2" attributes="0"/>
-              <EmptySpace pref="115" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+              <Component id="jXSearchField1" min="-2" pref="40" max="-2" attributes="0"/>
+              <EmptySpace pref="172" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -110,7 +110,10 @@
     </Component>
     <Component class="org.jdesktop.swingx.JXSearchField" name="jXSearchField1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jXSearchField1"/>
+        <Property name="layoutStyle" type="org.jdesktop.swingx.JXSearchField$LayoutStyle" editor="org.netbeans.modules.form.editors.EnumEditor">
+          <Value id="MAC"/>
+        </Property>
+        <Property name="prompt" type="java.lang.String" value="Rechercher"/>
       </Properties>
     </Component>
   </SubComponents>

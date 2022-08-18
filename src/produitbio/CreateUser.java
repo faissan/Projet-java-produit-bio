@@ -44,16 +44,7 @@ public class CreateUser extends javax.swing.JFrame {
                 
         } catch (Exception e) {
            message_error.setText("Problème de connexion !!");
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        }          
     }
 
     /**

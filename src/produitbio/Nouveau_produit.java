@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -27,6 +28,25 @@ public class Nouveau_produit extends javax.swing.JFrame {
         initComponents();
         Image img = new ImageIcon(this.getClass().getResource("logo_bket.png")).getImage();
         this.setIconImage(img);
+        
+        //Affichage des catégories des produits automatique à l'ouverture de la fenetre
+        try {
+                //connexion à la base de données
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=latin1","root","");
+                st = co.createStatement();
+                
+                //Recuperation des resultats 
+                rs = st.executeQuery("SELECT libelle_cat FROM cat_produit");
+                
+                while(rs.next()){
+                   String categorie_produit = rs.getString("libelle_cat");
+                   categorie_poduit.addItem(categorie_produit);
+                }
+                
+        } catch (Exception e) {
+           message_error_cat.setText("Problème de connexion !!");
+        }
         
     }
 
@@ -50,18 +70,18 @@ public class Nouveau_produit extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         libelle = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        date_production = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        date_expiration = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        quantie = new javax.swing.JTextField();
+        quantite = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        quantie_alerte = new javax.swing.JTextField();
+        quantite_alerte = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         prix_vente = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         categorie_poduit = new javax.swing.JComboBox();
+        date_production = new org.jdesktop.swingx.JXDatePicker();
+        date_expiration = new org.jdesktop.swingx.JXDatePicker();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -86,27 +106,27 @@ public class Nouveau_produit extends javax.swing.JFrame {
             }
         });
         jPanel1.add(reference);
-        reference.setBounds(149, 114, 304, 40);
+        reference.setBounds(40, 120, 304, 40);
 
         jLabel1.setFont(new java.awt.Font("Yu Gothic Medium", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Ajout d'un produit");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(3, 30, 571, 40);
+        jLabel1.setBounds(1, 30, 750, 40);
 
         message_error_cat.setBackground(new java.awt.Color(255, 255, 255));
         message_error_cat.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
         message_error_cat.setForeground(new java.awt.Color(204, 0, 0));
         jPanel1.add(message_error_cat);
-        message_error_cat.setBounds(150, 650, 300, 25);
+        message_error_cat.setBounds(220, 380, 300, 25);
 
         jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(51, 51, 51));
         jLabel5.setText("Référence");
         jPanel1.add(jLabel5);
-        jLabel5.setBounds(150, 90, 62, 20);
+        jLabel5.setBounds(40, 100, 62, 20);
 
         ajouter.setBackground(new java.awt.Color(0, 169, 54));
         ajouter.setForeground(new java.awt.Color(255, 255, 255));
@@ -125,7 +145,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
             }
         });
         jPanel1.add(ajouter);
-        ajouter.setBounds(150, 690, 125, 40);
+        ajouter.setBounds(170, 420, 170, 40);
 
         annuler.setBackground(new java.awt.Color(0, 169, 54));
         annuler.setForeground(new java.awt.Color(255, 255, 255));
@@ -144,14 +164,14 @@ public class Nouveau_produit extends javax.swing.JFrame {
             }
         });
         jPanel1.add(annuler);
-        annuler.setBounds(330, 690, 125, 40);
+        annuler.setBounds(400, 420, 170, 40);
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 169, 54));
         jLabel2.setText("Bket.");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(520, 730, 70, 32);
+        jLabel2.setBounds(680, 470, 60, 32);
 
         libelle.setBackground(new java.awt.Color(235, 235, 235));
         libelle.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
@@ -165,98 +185,70 @@ public class Nouveau_produit extends javax.swing.JFrame {
             }
         });
         jPanel1.add(libelle);
-        libelle.setBounds(150, 180, 304, 40);
+        libelle.setBounds(40, 190, 304, 40);
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setText("Libellé");
         jPanel1.add(jLabel6);
-        jLabel6.setBounds(150, 160, 41, 20);
-
-        date_production.setBackground(new java.awt.Color(235, 235, 235));
-        date_production.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        date_production.setForeground(new java.awt.Color(51, 51, 51));
-        date_production.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
-        date_production.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        date_production.setName(""); // NOI18N
-        date_production.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                date_productionActionPerformed(evt);
-            }
-        });
-        jPanel1.add(date_production);
-        date_production.setBounds(150, 250, 304, 40);
+        jLabel6.setBounds(40, 170, 41, 20);
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(51, 51, 51));
         jLabel7.setText("Date de production");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(150, 230, 121, 20);
-
-        date_expiration.setBackground(new java.awt.Color(235, 235, 235));
-        date_expiration.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        date_expiration.setForeground(new java.awt.Color(51, 51, 51));
-        date_expiration.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
-        date_expiration.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        date_expiration.setName(""); // NOI18N
-        date_expiration.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                date_expirationActionPerformed(evt);
-            }
-        });
-        jPanel1.add(date_expiration);
-        date_expiration.setBounds(150, 320, 304, 40);
+        jLabel7.setBounds(40, 240, 121, 20);
 
         jLabel8.setBackground(new java.awt.Color(255, 255, 255));
         jLabel8.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(51, 51, 51));
         jLabel8.setText("Date d'expiration");
         jPanel1.add(jLabel8);
-        jLabel8.setBounds(150, 300, 108, 20);
+        jLabel8.setBounds(40, 310, 108, 20);
 
-        quantie.setBackground(new java.awt.Color(235, 235, 235));
-        quantie.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        quantie.setForeground(new java.awt.Color(51, 51, 51));
-        quantie.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
-        quantie.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        quantie.setName(""); // NOI18N
-        quantie.addActionListener(new java.awt.event.ActionListener() {
+        quantite.setBackground(new java.awt.Color(235, 235, 235));
+        quantite.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        quantite.setForeground(new java.awt.Color(51, 51, 51));
+        quantite.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
+        quantite.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        quantite.setName(""); // NOI18N
+        quantite.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                quantieActionPerformed(evt);
+                quantiteActionPerformed(evt);
             }
         });
-        jPanel1.add(quantie);
-        quantie.setBounds(150, 390, 304, 40);
+        jPanel1.add(quantite);
+        quantite.setBounds(400, 120, 304, 40);
 
         jLabel9.setBackground(new java.awt.Color(255, 255, 255));
         jLabel9.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(51, 51, 51));
         jLabel9.setText("Quantité");
         jPanel1.add(jLabel9);
-        jLabel9.setBounds(150, 370, 55, 20);
+        jLabel9.setBounds(400, 100, 55, 20);
 
-        quantie_alerte.setBackground(new java.awt.Color(235, 235, 235));
-        quantie_alerte.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        quantie_alerte.setForeground(new java.awt.Color(51, 51, 51));
-        quantie_alerte.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
-        quantie_alerte.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        quantie_alerte.setName(""); // NOI18N
-        quantie_alerte.addActionListener(new java.awt.event.ActionListener() {
+        quantite_alerte.setBackground(new java.awt.Color(235, 235, 235));
+        quantite_alerte.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        quantite_alerte.setForeground(new java.awt.Color(51, 51, 51));
+        quantite_alerte.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
+        quantite_alerte.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        quantite_alerte.setName(""); // NOI18N
+        quantite_alerte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                quantie_alerteActionPerformed(evt);
+                quantite_alerteActionPerformed(evt);
             }
         });
-        jPanel1.add(quantie_alerte);
-        quantie_alerte.setBounds(150, 460, 304, 40);
+        jPanel1.add(quantite_alerte);
+        quantite_alerte.setBounds(400, 190, 304, 40);
 
         jLabel10.setBackground(new java.awt.Color(255, 255, 255));
         jLabel10.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(51, 51, 51));
         jLabel10.setText("Quantité alerte");
         jPanel1.add(jLabel10);
-        jLabel10.setBounds(150, 440, 120, 20);
+        jLabel10.setBounds(400, 170, 120, 20);
 
         prix_vente.setBackground(new java.awt.Color(235, 235, 235));
         prix_vente.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
@@ -270,38 +262,48 @@ public class Nouveau_produit extends javax.swing.JFrame {
             }
         });
         jPanel1.add(prix_vente);
-        prix_vente.setBounds(150, 530, 304, 40);
+        prix_vente.setBounds(400, 260, 304, 40);
 
         jLabel11.setBackground(new java.awt.Color(255, 255, 255));
         jLabel11.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(51, 51, 51));
         jLabel11.setText("Prix de vente");
         jPanel1.add(jLabel11);
-        jLabel11.setBounds(150, 510, 110, 20);
+        jLabel11.setBounds(400, 240, 110, 20);
 
         jLabel12.setBackground(new java.awt.Color(255, 255, 255));
         jLabel12.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(51, 51, 51));
         jLabel12.setText("Categorie du produit");
         jPanel1.add(jLabel12);
-        jLabel12.setBounds(150, 580, 170, 20);
+        jLabel12.setBounds(400, 310, 170, 20);
 
         categorie_poduit.setBackground(new java.awt.Color(235, 235, 235));
         categorie_poduit.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
         jPanel1.add(categorie_poduit);
-        categorie_poduit.setBounds(150, 600, 300, 40);
+        categorie_poduit.setBounds(400, 330, 300, 40);
+
+        date_production.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        date_production.setFormats("dd/MM/yyyy");
+        jPanel1.add(date_production);
+        date_production.setBounds(40, 270, 300, 40);
+
+        date_expiration.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        date_expiration.setFormats("dd/MM/yyyy");
+        jPanel1.add(date_expiration);
+        date_expiration.setBounds(40, 330, 300, 40);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 744, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
         );
 
         pack();
@@ -323,10 +325,28 @@ public class Nouveau_produit extends javax.swing.JFrame {
     private void ajouterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouterMouseClicked
         //Les variables
         Color colorbgold =new Color(217,217,217);
-        String libelle_saisi = reference.getText();
+        
+        String reference_saisie = reference.getText();
+        String libelle_saisie = libelle.getText();
+        
+        date_production.setFormats("dd/MM/yyyy");
+        Date d_production = date_production.getDate();
+        
+        date_expiration.setFormats("dd/MM/yyyy");
+        Date d_expiration = date_expiration.getDate();
+        
+        String quantite_saisie = quantite.getText();//A convertir
+        String quantite_alerte_saisie = quantite_alerte.getText();//A convertir
+        String prix_vente_saisie = prix_vente.getText();//A convertir
+        String categorie_choisie = categorie_poduit.getSelectedItem().toString();//A convertir
 
-
-        if (libelle_saisi.equals("")){
+        if (reference_saisie.equals("")
+                ||libelle_saisie.equals("")
+                ||d_production.equals("")
+                ||d_expiration.equals("")
+                ||quantite_saisie.equals("")
+                ||quantite_alerte_saisie.equals("")
+                ||prix_vente_saisie.equals("")){
             message_error_cat.setForeground(Color.RED);
             message_error_cat.setText("Veuillez remplir le champ !!!");
         }
@@ -337,22 +357,46 @@ public class Nouveau_produit extends javax.swing.JFrame {
                 try {
                         //connexion à la base de données
                         Class.forName("com.mysql.jdbc.Driver").newInstance();
-                        Connection co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=UTF-8","root","");
-                        Statement st = co.createStatement();
-
+                        co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=UTF-8","root","");
+                        st = co.createStatement();
+                        
+                        //Conversion
+                        Double quantite_saisie_converti = new Double(quantite_saisie);
+                        Double quantite_alerte_saisie_converti = new Double(quantite_alerte_saisie);
+                        Double prix_vente_saisie_converti = new Double(prix_vente_saisie);
+                        
+                        System.out.println("Donnée convertie"+quantite_saisie_converti+"---"
+                                +quantite_alerte_saisie_converti+"-----"+prix_vente_saisie_converti);
+                        
+                        rs = st.executeQuery("SELECT id_cat FROM cat_produit WHERE libelle_cat ='"+categorie_choisie+"'");
+                    
+                        int num_int_categorie = 0;
+                        if(rs.next())
+                        {
+                            num_int_categorie = rs.getInt(1);
+                        }   
+                        System.out.println(num_int_categorie);
+                        System.out.println("Date de production"+d_production);
+                        
                         //Recuperer le texte saisi
-                        System.out.println(libelle_saisi);
-                        st.executeUpdate("INSERT INTO cat_produit(libelle_cat)values('"+libelle_saisi+"')");
+                        st.executeUpdate("INSERT INTO produit(ref_produit,lib_produit,date_production,date_expiration,quantite,quantite_alerte,prix_vente,categorie_produit)values('"+reference_saisie+"','"+libelle_saisie+"','"+d_production+"','"+d_expiration+"','"+quantite_saisie_converti+"','"+quantite_alerte_saisie_converti+"','"+prix_vente_saisie_converti+"','"+num_int_categorie+"')");
+                        
+                        System.out.println(st);
+                        
                         //vider le champ
                         reference.setText("");
+                        libelle.setText("");
+                        //date_production.setText("");
+                        //date_expiration.;
+                        quantite.setText("");
+                        quantite_alerte.setText("");
+                        prix_vente.setText("");
                         
+                        //Notification d'ajout
                         message_error_cat.setForeground(colorbgold);
-                        message_error_cat.setText("Categorie bien ajoutée !!");
+                        message_error_cat.setText("Produit bien ajouté !!");
                         
                         //Thread.sleep(2000);
-                        
-                        
-
                 } catch (Exception e) {
                    message_error_cat.setText("Problème de connexion !!");
                 }
@@ -360,7 +404,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
             else
             {
                 message_error_cat.setForeground(Color.RED);
-                message_error_cat.setText("Données non ajoutées");
+                message_error_cat.setText("Produit non ajouté");
             }
         }
 
@@ -374,21 +418,13 @@ public class Nouveau_produit extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_libelleActionPerformed
 
-    private void date_productionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_date_productionActionPerformed
+    private void quantiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantiteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_date_productionActionPerformed
+    }//GEN-LAST:event_quantiteActionPerformed
 
-    private void date_expirationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_date_expirationActionPerformed
+    private void quantite_alerteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantite_alerteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_date_expirationActionPerformed
-
-    private void quantieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantieActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_quantieActionPerformed
-
-    private void quantie_alerteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantie_alerteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_quantie_alerteActionPerformed
+    }//GEN-LAST:event_quantite_alerteActionPerformed
 
     private void prix_venteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prix_venteActionPerformed
         // TODO add your handling code here:
@@ -440,8 +476,8 @@ public class Nouveau_produit extends javax.swing.JFrame {
     private produitbio.Button_perso ajouter;
     private produitbio.Button_perso annuler;
     private javax.swing.JComboBox categorie_poduit;
-    private javax.swing.JTextField date_expiration;
-    private javax.swing.JTextField date_production;
+    private org.jdesktop.swingx.JXDatePicker date_expiration;
+    private org.jdesktop.swingx.JXDatePicker date_production;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -457,8 +493,11 @@ public class Nouveau_produit extends javax.swing.JFrame {
     private javax.swing.JTextField libelle;
     private javax.swing.JLabel message_error_cat;
     private javax.swing.JTextField prix_vente;
-    private javax.swing.JTextField quantie;
-    private javax.swing.JTextField quantie_alerte;
+    private javax.swing.JTextField quantite;
+    private javax.swing.JTextField quantite_alerte;
     private javax.swing.JTextField reference;
     // End of variables declaration//GEN-END:variables
+        ResultSet rs = null;
+        Statement st = null;
+        Connection co = null;
 }
