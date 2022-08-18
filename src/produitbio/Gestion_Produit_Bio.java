@@ -466,6 +466,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         
         //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
         content_view_layout.removeAll();
+        
         Liste_utilisateurs jpanel_liste_user = new Liste_utilisateurs();
         
         //Affichage du jpanel dans le content_view_layout
@@ -488,10 +489,10 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         
         //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
         content_view_layout.removeAll();
-        
+        content_view_layout.add(new Liste_produit());
         //Reactualiser l'affichage
-        revalidate();
-        //pack();
+        //revalidate();
+        pack();
 
     }//GEN-LAST:event_gestion_produitMouseClicked
 
@@ -549,6 +550,8 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         
         //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
         content_view_layout.removeAll();
+        
+        //Code de LIONNEL
         
         //Reactualiser l'affichage
         pack();        

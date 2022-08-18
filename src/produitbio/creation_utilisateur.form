@@ -29,11 +29,16 @@
                   <Component id="button_perso2" min="-2" pref="233" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jButton1" min="-2" pref="250" max="-2" attributes="0"/>
-                      <EmptySpace pref="77" max="32767" attributes="0"/>
+                      <EmptySpace pref="267" max="32767" attributes="0"/>
                       <Component id="button_perso1" min="-2" pref="190" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="333" max="-2" attributes="0"/>
+              <Component id="jXSearchField1" min="-2" pref="274" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -47,7 +52,9 @@
                   <Component id="jButton1" min="-2" pref="76" max="-2" attributes="0"/>
                   <Component id="button_perso1" min="-2" pref="41" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="137" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="128" max="-2" attributes="0"/>
+              <Component id="jXSearchField1" min="-2" pref="43" max="-2" attributes="0"/>
+              <EmptySpace pref="115" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -99,6 +106,11 @@
         <Property name="horizontalTextPosition" type="int" value="4"/>
         <Property name="iconTextGap" type="int" value="20"/>
         <Property name="radius" type="int" value="25"/>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXSearchField" name="jXSearchField1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jXSearchField1"/>
       </Properties>
     </Component>
   </SubComponents>

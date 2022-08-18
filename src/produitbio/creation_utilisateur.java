@@ -30,6 +30,7 @@ public class creation_utilisateur extends javax.swing.JFrame {
         button_perso2 = new produitbio.Button_perso();
         jButton1 = new javax.swing.JButton();
         button_perso1 = new produitbio.Button_perso();
+        jXSearchField1 = new org.jdesktop.swingx.JXSearchField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,6 +52,8 @@ public class creation_utilisateur extends javax.swing.JFrame {
         button_perso1.setIconTextGap(20);
         button_perso1.setRadius(25);
 
+        jXSearchField1.setText("jXSearchField1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -61,9 +64,13 @@ public class creation_utilisateur extends javax.swing.JFrame {
                     .addComponent(button_perso2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 267, Short.MAX_VALUE)
                         .addComponent(button_perso1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(104, 104, 104))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(333, 333, 333)
+                .addComponent(jXSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -74,7 +81,9 @@ public class creation_utilisateur extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button_perso1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addGap(128, 128, 128)
+                .addComponent(jXSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         pack();
@@ -119,5 +128,6 @@ public class creation_utilisateur extends javax.swing.JFrame {
     private produitbio.Button_perso button_perso1;
     private produitbio.Button_perso button_perso2;
     private javax.swing.JButton jButton1;
+    private org.jdesktop.swingx.JXSearchField jXSearchField1;
     // End of variables declaration//GEN-END:variables
 }
