@@ -7,6 +7,7 @@ package produitbio;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -41,6 +42,8 @@ public class Nouveau_produit extends javax.swing.JFrame {
                 
                 while(rs.next()){
                    String categorie_produit = rs.getString("libelle_cat");
+                   
+                   System.out.println(StandardCharsets.UTF_8.decode(StandardCharsets.UTF_8.encode(categorie_produit)).toString() );
                    categorie_poduit.addItem(categorie_produit);
                 }
                 
@@ -91,7 +94,6 @@ public class Nouveau_produit extends javax.swing.JFrame {
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 169, 54), 3));
         jPanel1.setLayout(null);
 
         reference.setBackground(new java.awt.Color(235, 235, 235));

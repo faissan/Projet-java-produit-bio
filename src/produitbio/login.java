@@ -289,6 +289,9 @@ public class login extends javax.swing.JFrame {
                 ResultSet rs = st.executeQuery("SELECT * FROM utilisateur WHERE login_utilisateur='"+login+"' AND pwd_utilisateur='"+passwd+"'");
                 
                 if(rs.next()){
+                    //Je veux sauvegarder l'instance sur le login qui vient de se connecter
+                   Singleton user = Singleton.getInstance();
+                   user.setUserLogin(login);
                    new Gestion_Produit_Bio().setVisible(true);
                    this.dispose();
                 }

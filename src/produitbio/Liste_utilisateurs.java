@@ -29,7 +29,6 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
         //dtm.addColumn("Pwd");
         //dtm.addColumn("Profil");
         
-        System.out.println("OK  gggg");
         try {
                 //connexion à la base de données
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -39,8 +38,6 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
                     
                     while(resultat.next())
                     {
-                        System.out.print(resultat.getObject(1).toString() +"-"+resultat.getObject(2)+"-"+resultat.getObject(3));
-                        System.out.println("");
                         dtm.addRow(new Object[]{resultat.getObject(1),resultat.getObject(2),resultat.getObject(3)});
                     }
                     
