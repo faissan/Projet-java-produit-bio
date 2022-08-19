@@ -104,6 +104,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         tableau_de_bord.setForeground(new java.awt.Color(51, 51, 51));
         tableau_de_bord.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-dashboard-25.png"))); // NOI18N
         tableau_de_bord.setText("Tableau de bord");
+        tableau_de_bord.setBorderColor(new java.awt.Color(102, 102, 102));
         tableau_de_bord.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         tableau_de_bord.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         tableau_de_bord.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -124,6 +125,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_user.setForeground(new java.awt.Color(51, 51, 51));
         gestion_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-users-25.png"))); // NOI18N
         gestion_user.setText("Gestion des utilisateurs");
+        gestion_user.setBorderColor(new java.awt.Color(102, 102, 102));
         gestion_user.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         gestion_user.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gestion_user.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -144,6 +146,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_produit.setForeground(new java.awt.Color(51, 51, 51));
         gestion_produit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/iconsproduit-25.png"))); // NOI18N
         gestion_produit.setText("Gestion des produits");
+        gestion_produit.setBorderColor(new java.awt.Color(102, 102, 102));
         gestion_produit.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         gestion_produit.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gestion_produit.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -164,6 +167,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_fournisseurs.setForeground(new java.awt.Color(51, 51, 51));
         gestion_fournisseurs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-fournisseur-de-données-25.png"))); // NOI18N
         gestion_fournisseurs.setText("Gestion des fournisseurs");
+        gestion_fournisseurs.setBorderColor(new java.awt.Color(102, 102, 102));
         gestion_fournisseurs.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         gestion_fournisseurs.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gestion_fournisseurs.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -184,6 +188,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_ventes.setForeground(new java.awt.Color(51, 51, 51));
         gestion_ventes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-ventes-totales-25.png"))); // NOI18N
         gestion_ventes.setText("Gestion des ventes");
+        gestion_ventes.setBorderColor(new java.awt.Color(102, 102, 102));
         gestion_ventes.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         gestion_ventes.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gestion_ventes.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -204,6 +209,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_client.setForeground(new java.awt.Color(51, 51, 51));
         gestion_client.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8client25.png"))); // NOI18N
         gestion_client.setText("Gestion des clients");
+        gestion_client.setBorderColor(new java.awt.Color(102, 102, 102));
         gestion_client.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         gestion_client.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         gestion_client.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -268,6 +274,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         parametre.setBackground(new java.awt.Color(204, 204, 204));
         parametre.setForeground(new java.awt.Color(51, 51, 51));
         parametre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-paramètres-25.png"))); // NOI18N
+        parametre.setBorderColor(new java.awt.Color(102, 102, 102));
         parametre.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         parametre.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         parametre.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -314,7 +321,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
                     .addComponent(gestion_fournisseurs2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(52, 52, 52)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 265, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
                 .addComponent(parametre, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 

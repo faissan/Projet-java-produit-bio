@@ -6,10 +6,15 @@
 package produitbio;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,29 +28,38 @@ public class Liste_produit extends javax.swing.JPanel {
      */
     public Liste_produit() {
         initComponents();
-        dtm.addColumn("Nom");
-        dtm.addColumn("Prenom");
-        dtm.addColumn("Login");
-        //dtm.addColumn("Pwd");
-        //dtm.addColumn("Profil");
+        Font myFont2 = new Font("Yu Gothic UI Semilight", Font.BOLD, 16);
+
+        liste_produit.getTableHeader().setFont(myFont2);
+        dtm.addColumn("Référence");
+        dtm.addColumn("Libellé");
+        dtm.addColumn("Date production");
+        dtm.addColumn("Date expiration");
+        dtm.addColumn("Quantité");
+        dtm.addColumn("Quantité alerte");
+        dtm.addColumn("Prix de vente");
+        dtm.addColumn("Categorie");
         
-        System.out.println("OK  gggg");
         try {
                 //connexion à la base de données
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                     co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=latin1","root","");
                     st = co.createStatement();    
-                    resultat = st.executeQuery("SELECT nom_utilisateur,prenom_utilisateur,login_utilisateur FROM utilisateur");
-                    
+                    resultat = st.executeQuery("SELECT * FROM produit");
+                    SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+
                     while(resultat.next())
                     {
-                        System.out.print(resultat.getObject(1).toString() +"-"+resultat.getObject(2)+"-"+resultat.getObject(3));
-                        System.out.println("");
-                        dtm.addRow(new Object[]{resultat.getObject(1),resultat.getObject(2),resultat.getObject(3)});
+                        
+                        //Object date_prod = sdf.parse((String) resultat.getObject(3));
+                        //Object date_exp = sdf.parse((String)resultat.getObject(4));
+                        //Object obj1 = date_prod;
+                        //Object obj2 = date_exp;
+                        //System.out.println(f.format(resultat.getObject(3)));
+                        
+                        dtm.addRow(new Object[]{resultat.getObject(1),resultat.getObject(2),resultat.getObject(3),resultat.getObject(4),resultat.getObject(5),resultat.getObject(6),resultat.getObject(7),resultat.getObject(8)});
                     }
-                    
-                    System.out.println(dtm.getRowCount());
-                    liste_user_table.setModel(dtm);
+                    liste_produit.setModel(dtm);
         } catch (Exception e) {
             System.out.println("ERROR");
         }
@@ -107,6 +121,7 @@ public class Liste_produit extends javax.swing.JPanel {
         ajout_produit.setForeground(new java.awt.Color(51, 51, 51));
         ajout_produit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-plus-25.png"))); // NOI18N
         ajout_produit.setText("Ajouter un produit");
+        ajout_produit.setBorderColor(new java.awt.Color(0, 169, 54));
         ajout_produit.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         ajout_produit.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         ajout_produit.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -122,6 +137,7 @@ public class Liste_produit extends javax.swing.JPanel {
         supprimer_produit.setForeground(new java.awt.Color(51, 51, 51));
         supprimer_produit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-supprimer-pour-toujours-25.png"))); // NOI18N
         supprimer_produit.setText("Supprimer un produit");
+        supprimer_produit.setBorderColor(new java.awt.Color(255, 51, 51));
         supprimer_produit.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         supprimer_produit.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         supprimer_produit.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -145,6 +161,7 @@ public class Liste_produit extends javax.swing.JPanel {
         modifier_produit.setForeground(new java.awt.Color(51, 51, 51));
         modifier_produit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-modifier-25.png"))); // NOI18N
         modifier_produit.setText("Modifier un produit");
+        modifier_produit.setBorderColor(new java.awt.Color(255, 153, 51));
         modifier_produit.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         modifier_produit.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         modifier_produit.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -165,6 +182,7 @@ public class Liste_produit extends javax.swing.JPanel {
         ajout_categorie.setForeground(new java.awt.Color(51, 51, 51));
         ajout_categorie.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-plus-25.png"))); // NOI18N
         ajout_categorie.setText("Ajouter une catégorie");
+        ajout_categorie.setBorderColor(new java.awt.Color(0, 169, 54));
         ajout_categorie.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         ajout_categorie.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         ajout_categorie.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -181,17 +199,18 @@ public class Liste_produit extends javax.swing.JPanel {
             }
         });
 
+        liste_produit.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
         liste_produit.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
+        liste_produit.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        liste_produit.setRowHeight(30);
+        liste_produit.setRowMargin(5);
         jScrollPane1.setViewportView(liste_produit);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -213,10 +232,8 @@ public class Liste_produit extends javax.swing.JPanel {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1065, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 984, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1122, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(322, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -235,13 +252,10 @@ public class Liste_produit extends javax.swing.JPanel {
                         .addGap(12, 12, 12)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
         );
 
         jPanel2.add(jPanel5, java.awt.BorderLayout.PAGE_START);
@@ -256,7 +270,31 @@ public class Liste_produit extends javax.swing.JPanel {
     }//GEN-LAST:event_supprimer_produitActionPerformed
 
     private void supprimer_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supprimer_produitMouseClicked
-        // TODO add your handling code here:
+        if(JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer?", "SUPPRESSION",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            try {
+               /* Class.forName("com.mysql.jdbc.Driver").newInstance();
+                Connection co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=utf-8","root","");
+                PreparedStatement ps = co.prepareStatement("Delete from produit where ref_produit=?");
+                *int i = new Integer(ide.getText());
+                String ref = 
+                ps.setInt(1, i);
+                ps.executeUpdate();
+                ps.close();
+                co.close();*/
+               
+                DefaultTableModel dt = (DefaultTableModel)liste_produit.getModel();
+                int index = liste_produit.getSelectedRow();
+                dt.removeRow(index);
+                /*ide.setText("");
+                no.setText("");
+                pr.setText("");
+                oldID.setText("");*/
+                
+                JOptionPane.showMessageDialog(null, "Données supprimées");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Problème de suppression");
+            }
+        }
     }//GEN-LAST:event_supprimer_produitMouseClicked
 
     private void ajout_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajout_produitMouseClicked

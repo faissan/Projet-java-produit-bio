@@ -285,6 +285,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
 
         date_production.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
         date_production.setFormats("dd/MM/yyyy");
+        date_production.setName(""); // NOI18N
         jPanel1.add(date_production);
         date_production.setBounds(40, 270, 300, 40);
 
@@ -329,11 +330,11 @@ public class Nouveau_produit extends javax.swing.JFrame {
         String reference_saisie = reference.getText();
         String libelle_saisie = libelle.getText();
         
-        date_production.setFormats("dd/MM/yyyy");
-        Date d_production = date_production.getDate();
+        //date_production.setFormats("dd/MM/yyyy");
+        String d_production = date_production.getDate().toString();
         
-        date_expiration.setFormats("dd/MM/yyyy");
-        Date d_expiration = date_expiration.getDate();
+        //date_expiration.setFormats("dd/MM/yyyy");
+        String d_expiration = date_expiration.getDate().toString();
         
         String quantite_saisie = quantite.getText();//A convertir
         String quantite_alerte_saisie = quantite_alerte.getText();//A convertir
@@ -365,8 +366,6 @@ public class Nouveau_produit extends javax.swing.JFrame {
                         Double quantite_alerte_saisie_converti = new Double(quantite_alerte_saisie);
                         Double prix_vente_saisie_converti = new Double(prix_vente_saisie);
                         
-                        System.out.println("Donnée convertie"+quantite_saisie_converti+"---"
-                                +quantite_alerte_saisie_converti+"-----"+prix_vente_saisie_converti);
                         
                         rs = st.executeQuery("SELECT id_cat FROM cat_produit WHERE libelle_cat ='"+categorie_choisie+"'");
                     
@@ -375,13 +374,10 @@ public class Nouveau_produit extends javax.swing.JFrame {
                         {
                             num_int_categorie = rs.getInt(1);
                         }   
-                        System.out.println(num_int_categorie);
-                        System.out.println("Date de production"+d_production);
                         
                         //Recuperer le texte saisi
                         st.executeUpdate("INSERT INTO produit(ref_produit,lib_produit,date_production,date_expiration,quantite,quantite_alerte,prix_vente,categorie_produit)values('"+reference_saisie+"','"+libelle_saisie+"','"+d_production+"','"+d_expiration+"','"+quantite_saisie_converti+"','"+quantite_alerte_saisie_converti+"','"+prix_vente_saisie_converti+"','"+num_int_categorie+"')");
                         
-                        System.out.println(st);
                         
                         //vider le champ
                         reference.setText("");
