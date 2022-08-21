@@ -19,28 +19,28 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author AISSAN Francois
  */
-public class Liste_utilisateurs extends javax.swing.JPanel {
+public class Liste_Clients extends javax.swing.JPanel {
 
     /**
      * Creates new form Liste_utilisateurs
      */
-    public Liste_utilisateurs() throws SQLException {
+    public Liste_Clients() throws SQLException {
         initComponents();
         Font police = new Font("Yu Gothic UI Semilight", Font.BOLD, 16);
-        liste_user_table.getTableHeader().setFont(police);
-        dtm.addColumn("Nom");
-        dtm.addColumn("Prenom");
-        dtm.addColumn("Login");
-        //dtm.addColumn("Pwd");
+        liste_client_table.getTableHeader().setFont(police);
+        dtm.addColumn("Ref");
+        dtm.addColumn("Nom et Prénom");
+        dtm.addColumn("Email");
+        dtm.addColumn("Téléphone");
         //dtm.addColumn("Profil");
         
         connexionDB();
-        resultat = st.executeQuery("SELECT nom_utilisateur,prenom_utilisateur,login_utilisateur FROM utilisateur");
+        resultat = st.executeQuery("SELECT ref_client, nom_prenoms_client,email_client,telephone_client FROM client");
         while(resultat.next())
         {
-            dtm.addRow(new Object[]{resultat.getObject(1),resultat.getObject(2),resultat.getObject(3)});
+            dtm.addRow(new Object[]{resultat.getObject(1),resultat.getObject(2),resultat.getObject(3),resultat.getObject(4)});
         }
-        liste_user_table.setModel(dtm);        
+        liste_client_table.setModel(dtm);        
     }
 
     /**
@@ -62,7 +62,7 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
         supprimer = new produitbio.Button_perso();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        liste_user_table = new javax.swing.JTable();
+        liste_client_table = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(217, 217, 217));
         setLayout(new java.awt.BorderLayout());
@@ -76,7 +76,7 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel2.setText("Liste des utilisateurs");
+        jLabel2.setText("Liste des clients");
 
         essai.setBackground(new java.awt.Color(217, 217, 217));
         essai.setToolTipText("");
@@ -136,8 +136,8 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
 
         jPanel4.setBackground(new java.awt.Color(217, 217, 217));
 
-        liste_user_table.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        liste_user_table.setModel(new javax.swing.table.DefaultTableModel(
+        liste_client_table.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        liste_client_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -148,7 +148,7 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
 
             }
         ));
-        jScrollPane2.setViewportView(liste_user_table);
+        jScrollPane2.setViewportView(liste_client_table);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -162,8 +162,8 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 11, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -229,11 +229,11 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
                Class.forName("com.mysql.jdbc.Driver").newInstance();
                 Connection co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=utf-8","root","");
                 //Recupération de la référence du produit à supprimer dans la table
-                DefaultTableModel dt = (DefaultTableModel)liste_user_table.getModel();
+                DefaultTableModel dt = (DefaultTableModel)liste_client_table.getModel();
                 //Ligne sélectionnée
-                int rowindex = liste_user_table.getSelectedRow();
+                int rowindex = liste_client_table.getSelectedRow();
                 //Référence se trouve sur la colonne 0, ligne selectionnée
-                String login_a_supprimer =(String) liste_user_table.getValueAt(rowindex,0);  
+                String login_a_supprimer =(String) liste_client_table.getValueAt(rowindex,0);  
                 //Requete de suppression du produit
                 String sql_req = "Delete from utilisateur where login_utilisateur='"+login_a_supprimer+"'";
                 //Création de l'objet statement
@@ -253,12 +253,11 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
     }//GEN-LAST:event_supprimerMouseClicked
 
     private void ajout_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajout_userActionPerformed
-        new CreateUser().setVisible(true);
         //this.dispose();
     }//GEN-LAST:event_ajout_userActionPerformed
 
     private void ajout_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajout_userMouseClicked
-
+        new Nouveau_Client().setVisible(true);
     }//GEN-LAST:event_ajout_userMouseClicked
     private void connexionDB() {                                        
         try {
@@ -281,7 +280,7 @@ public class Liste_utilisateurs extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable liste_user_table;
+    private javax.swing.JTable liste_client_table;
     private produitbio.Button_perso supprimer;
     // End of variables declaration//GEN-END:variables
     Connection co;

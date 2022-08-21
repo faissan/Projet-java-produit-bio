@@ -10,7 +10,10 @@ import java.awt.Image;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
@@ -107,10 +110,10 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_ventes = new produitbio.Button_perso();
         gestion_client = new produitbio.Button_perso();
         gestion_produit = new produitbio.Button_perso();
+        gestion_user = new produitbio.Button_perso();
         jLabel4 = new javax.swing.JLabel();
         parametre = new produitbio.Button_perso();
         gestion_fournisseurs2 = new produitbio.Button_perso();
-        gestion_user = new produitbio.Button_perso();
         jPanel3 = new javax.swing.JPanel();
         Menu_recherche_layout = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -206,11 +209,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
                 gestion_ventesMouseClicked(evt);
             }
         });
-        gestion_ventes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gestion_ventesActionPerformed(evt);
-            }
-        });
 
         gestion_client.setBackground(new java.awt.Color(204, 204, 204));
         gestion_client.setForeground(new java.awt.Color(51, 51, 51));
@@ -254,6 +252,27 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
             }
         });
 
+        gestion_user.setBackground(new java.awt.Color(204, 204, 204));
+        gestion_user.setForeground(new java.awt.Color(51, 51, 51));
+        gestion_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-users-25.png"))); // NOI18N
+        gestion_user.setText("Gestion des utilisateurs");
+        gestion_user.setBorderColor(new java.awt.Color(102, 102, 102));
+        gestion_user.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
+        gestion_user.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        gestion_user.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        gestion_user.setIconTextGap(5);
+        gestion_user.setRadius(18);
+        gestion_user.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gestion_userMouseClicked(evt);
+            }
+        });
+        gestion_user.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gestion_userActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -265,7 +284,8 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
                     .addComponent(gestion_ventes, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gestion_client, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gestion_produit, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gestion_fournisseurs, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(gestion_fournisseurs, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gestion_user, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -284,7 +304,9 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
                 .addComponent(gestion_produit, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(gestion_fournisseurs, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(gestion_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {gestion_client, gestion_fournisseurs, gestion_produit, gestion_ventes, tableau_de_bord});
@@ -319,48 +341,23 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_fournisseurs2.setIconTextGap(0);
         gestion_fournisseurs2.setRadius(60);
 
-        gestion_user.setBackground(new java.awt.Color(204, 204, 204));
-        gestion_user.setForeground(new java.awt.Color(51, 51, 51));
-        gestion_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-users-25.png"))); // NOI18N
-        gestion_user.setText("Gestion des utilisateurs");
-        gestion_user.setBorderColor(new java.awt.Color(102, 102, 102));
-        gestion_user.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
-        gestion_user.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gestion_user.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        gestion_user.setIconTextGap(5);
-        gestion_user.setRadius(18);
-        gestion_user.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                gestion_userMouseClicked(evt);
-            }
-        });
-        gestion_user.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gestion_userActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout Menu_layoutLayout = new javax.swing.GroupLayout(Menu_layout);
         Menu_layout.setLayout(Menu_layoutLayout);
         Menu_layoutLayout.setHorizontalGroup(
             Menu_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Menu_layoutLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(Menu_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(Menu_layoutLayout.createSequentialGroup()
+                        .addComponent(gestion_fournisseurs2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(19, 19, 19))
             .addGroup(Menu_layoutLayout.createSequentialGroup()
                 .addGap(101, 101, 101)
                 .addComponent(parametre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Menu_layoutLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(Menu_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(Menu_layoutLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(gestion_user, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(Menu_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(Menu_layoutLayout.createSequentialGroup()
-                            .addComponent(gestion_fournisseurs2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(19, 19, 19))
         );
         Menu_layoutLayout.setVerticalGroup(
             Menu_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,9 +368,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
                     .addComponent(gestion_fournisseurs2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(52, 52, 52)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gestion_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 334, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 322, Short.MAX_VALUE)
                 .addComponent(parametre, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -447,11 +442,9 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
 
         user_main_jframe.setBackground(new java.awt.Color(217, 217, 217));
         user_main_jframe.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        user_main_jframe.setText("jLabel3");
 
         profil_main_jframe.setBackground(new java.awt.Color(217, 217, 217));
         profil_main_jframe.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 12)); // NOI18N
-        profil_main_jframe.setText("jLabel3");
 
         jLabel3.setBackground(new java.awt.Color(217, 217, 217));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-utilisateur-40.png"))); // NOI18N
@@ -558,10 +551,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_gestion_produitActionPerformed
 
-    private void gestion_ventesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestion_ventesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_gestion_ventesActionPerformed
-
     private void gestion_fournisseursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestion_fournisseursActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_gestion_fournisseursActionPerformed
@@ -603,7 +592,12 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
         content_view_layout.removeAll();
         
-        Liste_utilisateurs jpanel_liste_user = new Liste_utilisateurs();
+        Liste_utilisateurs jpanel_liste_user = null;
+        try {
+            jpanel_liste_user = new Liste_utilisateurs();
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestion_Produit_Bio.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         //Affichage du jpanel dans le content_view_layout
         content_view_layout.add(jpanel_liste_user);
@@ -646,7 +640,11 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         
         //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
         content_view_layout.removeAll();
-        
+        try {
+            content_view_layout.add(new Liste_Clients());
+        } catch (SQLException ex) {
+            Logger.getLogger(Gestion_Produit_Bio.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //Reactualiser l'affichage
         pack();
     }//GEN-LAST:event_gestion_clientMouseClicked
@@ -666,7 +664,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
         content_view_layout.removeAll();
         
-        
+        content_view_layout.add(new Nouvelle_Vente());
         //Reactualiser l'affichage
         pack();
         
@@ -696,8 +694,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
     private void parametreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_parametreMouseClicked
         parametre.setBackground(colorbgnew);
         
-        //Changement des autres boutons
-        
+        //Changement des autres boutons        
         gestion_user.setBackground(colorbgold);       
         tableau_de_bord.setBackground(colorbgold);        
         gestion_produit.setBackground(colorbgold);        
@@ -706,9 +703,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_fournisseurs.setBackground(colorbgold);
         
         //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
-        content_view_layout.removeAll();
-        
-        
+        content_view_layout.removeAll();       
         //Reactualiser l'affichage
         pack();
     }//GEN-LAST:event_parametreMouseClicked
@@ -796,11 +791,9 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     //Variables personnelles
     Color colorbgnew =new Color(0,169,54);
-    Color colorbgold =new Color(217,217,217);
-    
+    Color colorbgold =new Color(217,217,217);   
     // Liste_utilisateurs
     Connection co;
     Statement st;
     ResultSet rs;
-
 }

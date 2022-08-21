@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -43,7 +44,7 @@ public class Liste_produit extends javax.swing.JPanel {
         try {
                 //connexion à la base de données
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
-                    co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=latin1","root","");
+                    co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=utf-8","root","");
                     st = co.createStatement();    
                     resultat = st.executeQuery("SELECT * FROM produit");
                     SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
@@ -272,24 +273,25 @@ public class Liste_produit extends javax.swing.JPanel {
     private void supprimer_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supprimer_produitMouseClicked
         if(JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer?", "SUPPRESSION",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
             try {
-               /* Class.forName("com.mysql.jdbc.Driver").newInstance();
+               Class.forName("com.mysql.jdbc.Driver").newInstance();
                 Connection co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=utf-8","root","");
-                PreparedStatement ps = co.prepareStatement("Delete from produit where ref_produit=?");
-                *int i = new Integer(ide.getText());
-                String ref = 
-                ps.setInt(1, i);
-                ps.executeUpdate();
-                ps.close();
-                co.close();*/
-               
+                //Recupération de la référence du produit à supprimer dans la table
                 DefaultTableModel dt = (DefaultTableModel)liste_produit.getModel();
-                int index = liste_produit.getSelectedRow();
-                dt.removeRow(index);
-                /*ide.setText("");
-                no.setText("");
-                pr.setText("");
-                oldID.setText("");*/
-                
+                //Ligne sélectionnée
+                int rowindex = liste_produit.getSelectedRow();
+                //Référence se trouve sur la colonne 0, ligne selectionnée
+                String ref_prod_a_supprimer =(String) liste_produit.getValueAt(rowindex,0);  
+                //Requete de suppression du produit
+                String sql_req = "Delete from produit where ref_produit='"+ref_prod_a_supprimer+"'";
+                //Création de l'objet statement
+                st = co.createStatement();
+                //Exécution de la requête
+                st.executeUpdate(sql_req);
+                //fermeture de la connexion
+                co.close();
+                //Suppression de la ligne de la table
+                dt.removeRow(rowindex);
+                //Message de suppression
                 JOptionPane.showMessageDialog(null, "Données supprimées");
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Problème de suppression");
@@ -302,7 +304,52 @@ public class Liste_produit extends javax.swing.JPanel {
     }//GEN-LAST:event_ajout_produitMouseClicked
 
     private void modifier_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifier_produitMouseClicked
-        // TODO add your handling code here:
+        Nouveau_produit produit_a_modifier = new Nouveau_produit();
+        
+        produit_a_modifier.setVisible(true);
+        /*
+        PreparedStatement ps = null;
+        if(JOptionPane.showConfirmDialog(null, "Voulez-vous modifier?", "Confirme Modif",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            co1 = DriverManager.getConnection("jdbc:mysql://localhost/mpsi?characterEncoding=latin1","root","");
+            ps = co1.prepareStatement("Update etudiant SET matricule =?,nom=?,prenom=? where matricule =?");
+            int i =new Integer(ide.getText());
+            String n = no.getText();
+            String p = pr.getText();
+
+            int i2 =new Integer(oldID.getText());
+            ps.setInt(1, i);
+            ps.setString(2, n);
+            ps.setString(3, p);
+            ps.setInt(4,i2);
+            
+
+            ps.executeUpdate();
+            
+            System.out.println("OK");
+
+            co1.close();
+            ps.close();
+            
+            DefaultTableModel dt = (DefaultTableModel)table.getModel();
+            int index = table.getSelectedRow();
+            dt.setValueAt(i, index, 0);
+            dt.setValueAt(n, index, 1);
+            dt.setValueAt(p, index, 2);
+            
+            ide.setText("");
+            no.setText("");
+            pr.setText("");
+            oldID.setText("");
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Problème de modification");
+        }
+        }
+        
+        */
     }//GEN-LAST:event_modifier_produitMouseClicked
 
     private void modifier_produitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifier_produitActionPerformed

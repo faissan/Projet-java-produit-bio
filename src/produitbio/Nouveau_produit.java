@@ -14,7 +14,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import org.jdesktop.swingx.JXDatePicker;
 
 /**
  *
@@ -34,7 +37,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
         try {
                 //connexion à la base de données
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
-                co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=latin1","root","");
+                co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=utf-8","root","");
                 st = co.createStatement();
                 
                 //Recuperation des resultats 
@@ -43,7 +46,12 @@ public class Nouveau_produit extends javax.swing.JFrame {
                 while(rs.next()){
                    String categorie_produit = rs.getString("libelle_cat");
                    
-                   System.out.println(StandardCharsets.UTF_8.decode(StandardCharsets.UTF_8.encode(categorie_produit)).toString() );
+                    byte[] catBytes = categorie_produit.getBytes(StandardCharsets.UTF_8);
+
+                   String asciiEncodedString = new String(catBytes, StandardCharsets.UTF_8);
+                   System.out.println("Categorie "+asciiEncodedString);
+                   
+                   //System.out.println(StandardCharsets.UTF_8.decode(StandardCharsets.UTF_8.encode(categorie_produit)).toString() );
                    categorie_poduit.addItem(categorie_produit);
                 }
                 
@@ -408,6 +416,38 @@ public class Nouveau_produit extends javax.swing.JFrame {
 
     }//GEN-LAST:event_ajouterMouseClicked
 
+    public void setCategorie_poduit(JComboBox categorie_poduit) {
+        this.categorie_poduit = categorie_poduit;
+    }
+
+    public void setDate_expiration(JXDatePicker date_expiration) {
+        this.date_expiration = date_expiration;
+    }
+
+    public void setDate_production(JXDatePicker date_production) {
+        this.date_production = date_production;
+    }
+
+    public void setLibelle(JTextField libelle) {
+        this.libelle = libelle;
+    }
+
+    public void setPrix_vente(JTextField prix_vente) {
+        this.prix_vente = prix_vente;
+    }
+
+    public void setQuantite(JTextField quantite) {
+        this.quantite = quantite;
+    }
+
+    public void setQuantite_alerte(JTextField quantite_alerte) {
+        this.quantite_alerte = quantite_alerte;
+    }
+
+    public void setReference(JTextField reference) {
+        this.reference = reference;
+    }
+
     private void referenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_referenceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_referenceActionPerformed
@@ -493,7 +533,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
     private javax.swing.JTextField prix_vente;
     private javax.swing.JTextField quantite;
     private javax.swing.JTextField quantite_alerte;
-    private javax.swing.JTextField reference;
+    javax.swing.JTextField reference;
     // End of variables declaration//GEN-END:variables
         ResultSet rs = null;
         Statement st = null;
