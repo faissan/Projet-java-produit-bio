@@ -508,9 +508,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             DefaultTableModel model = (DefaultTableModel)produit_ajoutes.getModel();
             //Ligne sélectionnée
             int rowindex = produit_ajoutes.getSelectedRow();
-            //java.util.List<Double> list = new ArrayList<Double>(); 
-            //Recupération et conversion du montant ------------------------------
-            
+
             System.out.println("Index: "+rowindex);
             String montant_total_string =  montant_total.getText();
             Double montant_total_double = new Double(montant_total_string);
@@ -520,30 +518,9 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             double montant_a_supprimer = (double) produit_ajoutes.getValueAt(rowindex,4);  
             
             double nouveau_montant = montant_total_double - montant_a_supprimer;
-
-            System.out.println(nouveau_montant);
-            
-            
-            //Double montant_total_double = new Double(montant_total_string);
-            // somme total
-            //double somme = list.stream().mapToDouble(Double::doubleValue).sum();
-            //System.out.println(montant_total_double);
-
-            //Double montant_a_supprimer =new Double((double) produit_ajoutes.getValueAt(rowindex,4));  
-
-            //System.out.println(montant_a_supprimer);
-            //double nouveau_montant = montant_total_double - montant_a_supprimer;
-            
-            montant_total.setText(""+nouveau_montant);
-            //System.out.println(nouveau_montant);
-            //String nouveau_somme_convertie = ""+nouveau_montant;
-            //montant_total.setText(nouveau_somme_convertie);
-            //------------------------------
-            //Message de suppression
-            //this.validate();
-            JOptionPane.showMessageDialog(null, "article supprimé");
+            System.out.println(nouveau_montant);                                         
+            montant_total.setText(""+nouveau_montant);            
             model.removeRow(rowindex);
-            this.repaint();
         }
     }//GEN-LAST:event_supprimer_produitMouseClicked
 
