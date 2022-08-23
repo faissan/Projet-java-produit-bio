@@ -5,6 +5,19 @@
  */
 package produitbio;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author AISSAN Francois
@@ -16,6 +29,62 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
      */
     public Nouvelle_Vente() {
         initComponents();
+        String annee_courante_deux_bit = new SimpleDateFormat("yy").format(new Date());
+        //System.out.println(annee_courante_deux_bit);   
+        Font myFont2 = new Font("Yu Gothic UI Semilight", Font.BOLD, 16);
+        produit_ajoutes.getTableHeader().setFont(myFont2);
+        
+        Singleton user = Singleton.getInstance();
+        String userLogin =user.getUserLogin();
+        
+        //Charge les clients
+        try {
+                //connexion à la base de données
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=utf-8","root","");
+                st = co.createStatement();
+                
+                //Recuprération du profil de connexion
+                rs = st.executeQuery("SELECT profil_utilisateur FROM utilisateur WHERE login_utilisateur ='"+userLogin+"'");
+                while(rs.next())
+                {
+                   int profil_user = rs.getInt("profil_utilisateur");
+                   if (profil_user == 3)
+                   {
+                       ajouter_new_produit.setVisible(false);
+                   }
+                }                
+               //fin du traitement de l'affichage du bouton d'ajoute de produit par le vendeur
+                
+                //Traitement automatique de la référence de la facture
+                rs = st.executeQuery("SELECT max(id_vente) as dernier_id_v FROM vente");
+                while(rs.next()){
+                    int dernier_id_vente = rs.getInt("dernier_id_v");
+                    int id_vente_suivant = dernier_id_vente +1;
+                    String reference_auto = "BK-000"+id_vente_suivant+"-"+annee_courante_deux_bit;
+                    ref_vente_auto.setText(reference_auto);
+                    //System.out.println(reference_auto);
+                }
+                //Recuperation des resultats 
+                rs = st.executeQuery("SELECT nom_prenoms_client FROM client");
+                
+                while(rs.next()){
+                   String client_l = rs.getString("nom_prenoms_client");                  
+                   liste_client.addItem(client_l);
+                }
+                
+                //La date de l'opération
+                String date_vente = new SimpleDateFormat().format(new Date());            
+                //Recuperation des produits 
+                rs = st.executeQuery("SELECT lib_produit FROM produit");               
+                while(rs.next()){
+                   String produit_l = rs.getString("lib_produit");                  
+                   produit_choisi.addItem(produit_l);
+                }
+                
+        } catch (Exception e) {
+           //message_error_cat.setText("Problème de connexion !!");
+        }            
     }
 
     /**
@@ -28,84 +97,299 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        ajouter1 = new produitbio.Button_perso();
-        ajouter2 = new produitbio.Button_perso();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        ref_vente_auto = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        liste_client = new javax.swing.JComboBox();
+        ajouter_client = new produitbio.Button_perso();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        quantite_prod = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        supprimer_produit = new produitbio.Button_perso();
+        ajouter_produit = new produitbio.Button_perso();
+        modifier_produit = new produitbio.Button_perso();
+        produit_choisi = new javax.swing.JComboBox();
+        message_qte_error = new javax.swing.JLabel();
+        ajouter_new_produit = new produitbio.Button_perso();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel23 = new javax.swing.JLabel();
+        valider_vente = new produitbio.Button_perso();
+        imprimer_facture = new produitbio.Button_perso();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel5 = new javax.swing.JPanel();
-        nom6 = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        nom7 = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
-        ajouter3 = new produitbio.Button_perso();
-        ajouter4 = new produitbio.Button_perso();
-        ajouter5 = new produitbio.Button_perso();
-        jPanel6 = new javax.swing.JPanel();
-        nom8 = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        nom9 = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
-        nom10 = new javax.swing.JTextField();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
+        produit_ajoutes = new javax.swing.JTable();
+        jLabel20 = new javax.swing.JLabel();
+        montant_total = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        nom12 = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        nom13 = new javax.swing.JTextField();
 
-        setBackground(new java.awt.Color(0, 153, 102));
-        setLayout(null);
+        setBackground(new java.awt.Color(217, 217, 217));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setLayout(null);
 
-        jLabel12.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel12.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel12.setText("Validation Vente");
-        jPanel3.add(jLabel12);
-        jLabel12.setBounds(150, 20, 140, 25);
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setLayout(null);
 
-        ajouter1.setBackground(new java.awt.Color(0, 169, 54));
-        ajouter1.setForeground(new java.awt.Color(255, 255, 255));
-        ajouter1.setText("Valider vente");
-        ajouter1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        ajouter1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        ajouter1.setRadius(40);
-        ajouter1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ajouter1MouseClicked(evt);
-            }
-        });
-        ajouter1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel16.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel16.setText("Entete facture de vente");
+        jPanel6.add(jLabel16);
+        jLabel16.setBounds(100, 20, 200, 25);
+
+        jLabel17.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel17.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel17.setText("Client");
+        jPanel6.add(jLabel17);
+        jLabel17.setBounds(10, 150, 37, 20);
+
+        ref_vente_auto.setBackground(new java.awt.Color(235, 235, 235));
+        ref_vente_auto.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        ref_vente_auto.setForeground(new java.awt.Color(51, 51, 51));
+        ref_vente_auto.setText("Bk-00000001-22");
+        ref_vente_auto.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
+        ref_vente_auto.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        ref_vente_auto.setEnabled(false);
+        ref_vente_auto.setName(""); // NOI18N
+        ref_vente_auto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ajouter1ActionPerformed(evt);
+                ref_vente_autoActionPerformed(evt);
             }
         });
-        jPanel3.add(ajouter1);
-        ajouter1.setBounds(40, 70, 170, 33);
+        jPanel6.add(ref_vente_auto);
+        ref_vente_auto.setBounds(111, 70, 260, 40);
 
-        ajouter2.setBackground(new java.awt.Color(0, 169, 54));
-        ajouter2.setForeground(new java.awt.Color(255, 255, 255));
-        ajouter2.setText("Imprimer facture");
-        ajouter2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        ajouter2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        ajouter2.setRadius(40);
-        ajouter2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel19.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel19.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel19.setText("Ref. vente");
+        jPanel6.add(jLabel19);
+        jLabel19.setBounds(10, 80, 62, 20);
+
+        liste_client.setBackground(new java.awt.Color(235, 235, 235));
+        liste_client.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        jPanel6.add(liste_client);
+        liste_client.setBounds(110, 140, 260, 40);
+
+        ajouter_client.setBackground(new java.awt.Color(217, 217, 217));
+        ajouter_client.setForeground(new java.awt.Color(255, 255, 255));
+        ajouter_client.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-plus-50.png"))); // NOI18N
+        ajouter_client.setBorderColor(new java.awt.Color(51, 51, 51));
+        ajouter_client.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        ajouter_client.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ajouter_client.setRadius(50);
+        ajouter_client.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ajouter2MouseClicked(evt);
+                ajouter_clientMouseClicked(evt);
             }
         });
-        ajouter2.addActionListener(new java.awt.event.ActionListener() {
+        ajouter_client.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ajouter2ActionPerformed(evt);
+                ajouter_clientActionPerformed(evt);
             }
         });
-        jPanel3.add(ajouter2);
-        ajouter2.setBounds(240, 70, 200, 33);
+        jPanel6.add(ajouter_client);
+        ajouter_client.setBounds(390, 140, 40, 40);
 
-        add(jPanel3);
-        jPanel3.setBounds(10, 630, 450, 150);
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setLayout(null);
+
+        jLabel13.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel13.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel13.setText("Ref. produit");
+        jPanel5.add(jLabel13);
+        jLabel13.setBounds(20, 90, 90, 20);
+
+        jLabel14.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel14.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel14.setText("Quantité");
+        jPanel5.add(jLabel14);
+        jLabel14.setBounds(20, 160, 70, 20);
+
+        quantite_prod.setBackground(new java.awt.Color(235, 235, 235));
+        quantite_prod.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        quantite_prod.setForeground(new java.awt.Color(51, 51, 51));
+        quantite_prod.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
+        quantite_prod.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        quantite_prod.setName(""); // NOI18N
+        quantite_prod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quantite_prodActionPerformed(evt);
+            }
+        });
+        jPanel5.add(quantite_prod);
+        quantite_prod.setBounds(120, 150, 260, 40);
+
+        jLabel15.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel15.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel15.setText("Ajout des produits");
+        jPanel5.add(jLabel15);
+        jLabel15.setBounds(110, 20, 170, 25);
+
+        supprimer_produit.setBackground(new java.awt.Color(0, 169, 54));
+        supprimer_produit.setForeground(new java.awt.Color(255, 255, 255));
+        supprimer_produit.setText("Supprimer");
+        supprimer_produit.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        supprimer_produit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        supprimer_produit.setRadius(40);
+        supprimer_produit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                supprimer_produitMouseClicked(evt);
+            }
+        });
+        supprimer_produit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                supprimer_produitActionPerformed(evt);
+            }
+        });
+        jPanel5.add(supprimer_produit);
+        supprimer_produit.setBounds(280, 220, 120, 33);
+
+        ajouter_produit.setBackground(new java.awt.Color(0, 169, 54));
+        ajouter_produit.setForeground(new java.awt.Color(255, 255, 255));
+        ajouter_produit.setText("Ajouter");
+        ajouter_produit.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        ajouter_produit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ajouter_produit.setRadius(40);
+        ajouter_produit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ajouter_produitMouseClicked(evt);
+            }
+        });
+        jPanel5.add(ajouter_produit);
+        ajouter_produit.setBounds(10, 220, 110, 33);
+
+        modifier_produit.setBackground(new java.awt.Color(0, 169, 54));
+        modifier_produit.setForeground(new java.awt.Color(255, 255, 255));
+        modifier_produit.setText("Modifier");
+        modifier_produit.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        modifier_produit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        modifier_produit.setRadius(40);
+        modifier_produit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                modifier_produitMouseClicked(evt);
+            }
+        });
+        modifier_produit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifier_produitActionPerformed(evt);
+            }
+        });
+        jPanel5.add(modifier_produit);
+        modifier_produit.setBounds(140, 220, 120, 33);
+
+        produit_choisi.setBackground(new java.awt.Color(235, 235, 235));
+        produit_choisi.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        jPanel5.add(produit_choisi);
+        produit_choisi.setBounds(120, 80, 260, 40);
+
+        message_qte_error.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jPanel5.add(message_qte_error);
+        message_qte_error.setBounds(120, 190, 260, 20);
+
+        ajouter_new_produit.setBackground(new java.awt.Color(217, 217, 217));
+        ajouter_new_produit.setForeground(new java.awt.Color(255, 255, 255));
+        ajouter_new_produit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-plus-50.png"))); // NOI18N
+        ajouter_new_produit.setBorderColor(new java.awt.Color(51, 51, 51));
+        ajouter_new_produit.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        ajouter_new_produit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ajouter_new_produit.setRadius(50);
+        ajouter_new_produit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ajouter_new_produitMouseClicked(evt);
+            }
+        });
+        ajouter_new_produit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ajouter_new_produitActionPerformed(evt);
+            }
+        });
+        jPanel5.add(ajouter_new_produit);
+        ajouter_new_produit.setBounds(390, 80, 40, 40);
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setLayout(null);
+
+        jLabel23.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel23.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel23.setText("Validation Vente");
+        jPanel7.add(jLabel23);
+        jLabel23.setBounds(100, 10, 140, 25);
+
+        valider_vente.setBackground(new java.awt.Color(0, 169, 54));
+        valider_vente.setForeground(new java.awt.Color(255, 255, 255));
+        valider_vente.setText("Valider vente");
+        valider_vente.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        valider_vente.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        valider_vente.setRadius(40);
+        valider_vente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                valider_venteMouseClicked(evt);
+            }
+        });
+        valider_vente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                valider_venteActionPerformed(evt);
+            }
+        });
+        jPanel7.add(valider_vente);
+        valider_vente.setBounds(10, 70, 170, 40);
+
+        imprimer_facture.setBackground(new java.awt.Color(0, 169, 54));
+        imprimer_facture.setForeground(new java.awt.Color(255, 255, 255));
+        imprimer_facture.setText("Imprimer facture");
+        imprimer_facture.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        imprimer_facture.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        imprimer_facture.setRadius(40);
+        imprimer_facture.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imprimer_factureMouseClicked(evt);
+            }
+        });
+        imprimer_facture.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imprimer_factureActionPerformed(evt);
+            }
+        });
+        jPanel7.add(imprimer_facture);
+        imprimer_facture.setBounds(190, 70, 200, 40);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 690));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(null);
@@ -117,7 +401,8 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         jPanel4.add(jLabel8);
         jLabel8.setBounds(290, 20, 140, 25);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        produit_ajoutes.setFont(new java.awt.Font("Yu Gothic UI Semilight", 0, 14)); // NOI18N
+        produit_ajoutes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -140,292 +425,275 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
+        jScrollPane1.setViewportView(produit_ajoutes);
+        if (produit_ajoutes.getColumnModel().getColumnCount() > 0) {
+            produit_ajoutes.getColumnModel().getColumn(0).setResizable(false);
         }
 
         jPanel4.add(jScrollPane1);
-        jScrollPane1.setBounds(20, 80, 670, 680);
+        jScrollPane1.setBounds(20, 50, 730, 520);
 
-        add(jPanel4);
-        jPanel4.setBounds(490, 10, 700, 770);
+        jLabel20.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel20.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel20.setText("Montant total");
+        jPanel4.add(jLabel20);
+        jLabel20.setBounds(90, 590, 90, 20);
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setLayout(null);
-
-        nom6.setBackground(new java.awt.Color(235, 235, 235));
-        nom6.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        nom6.setForeground(new java.awt.Color(51, 51, 51));
-        nom6.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
-        nom6.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        nom6.setName(""); // NOI18N
-        nom6.addActionListener(new java.awt.event.ActionListener() {
+        montant_total.setBackground(new java.awt.Color(235, 235, 235));
+        montant_total.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        montant_total.setForeground(new java.awt.Color(51, 51, 51));
+        montant_total.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
+        montant_total.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        montant_total.setName(""); // NOI18N
+        montant_total.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nom6ActionPerformed(evt);
+                montant_totalActionPerformed(evt);
             }
         });
-        jPanel5.add(nom6);
-        nom6.setBounds(170, 150, 201, 40);
+        jPanel4.add(montant_total);
+        montant_total.setBounds(20, 620, 240, 40);
 
-        jLabel13.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel13.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel13.setText("Ref. produit");
-        jPanel5.add(jLabel13);
-        jLabel13.setBounds(50, 90, 90, 20);
+        jLabel21.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel21.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel21.setText("Reduction");
+        jPanel4.add(jLabel21);
+        jLabel21.setBounds(380, 590, 80, 20);
 
-        jLabel14.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel14.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel14.setText("Quantité");
-        jPanel5.add(jLabel14);
-        jLabel14.setBounds(50, 160, 70, 20);
-
-        nom7.setBackground(new java.awt.Color(235, 235, 235));
-        nom7.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        nom7.setForeground(new java.awt.Color(51, 51, 51));
-        nom7.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
-        nom7.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        nom7.setName(""); // NOI18N
-        nom7.addActionListener(new java.awt.event.ActionListener() {
+        nom12.setBackground(new java.awt.Color(235, 235, 235));
+        nom12.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        nom12.setForeground(new java.awt.Color(51, 51, 51));
+        nom12.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
+        nom12.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        nom12.setName(""); // NOI18N
+        nom12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nom7ActionPerformed(evt);
+                nom12ActionPerformed(evt);
             }
         });
-        jPanel5.add(nom7);
-        nom7.setBounds(170, 80, 201, 40);
+        jPanel4.add(nom12);
+        nom12.setBounds(320, 620, 201, 40);
 
-        jLabel15.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel15.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel15.setText("Ajout des produits");
-        jPanel5.add(jLabel15);
-        jLabel15.setBounds(150, 20, 170, 25);
+        jLabel22.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel22.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel22.setText("Total net à payer");
+        jPanel4.add(jLabel22);
+        jLabel22.setBounds(600, 590, 110, 20);
 
-        ajouter3.setBackground(new java.awt.Color(0, 169, 54));
-        ajouter3.setForeground(new java.awt.Color(255, 255, 255));
-        ajouter3.setText("Supprimer");
-        ajouter3.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        ajouter3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        ajouter3.setRadius(40);
-        ajouter3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ajouter3MouseClicked(evt);
-            }
-        });
-        ajouter3.addActionListener(new java.awt.event.ActionListener() {
+        nom13.setBackground(new java.awt.Color(235, 235, 235));
+        nom13.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        nom13.setForeground(new java.awt.Color(51, 51, 51));
+        nom13.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
+        nom13.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        nom13.setName(""); // NOI18N
+        nom13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ajouter3ActionPerformed(evt);
+                nom13ActionPerformed(evt);
             }
         });
-        jPanel5.add(ajouter3);
-        ajouter3.setBounds(300, 220, 120, 33);
+        jPanel4.add(nom13);
+        nom13.setBounds(550, 620, 200, 40);
 
-        ajouter4.setBackground(new java.awt.Color(0, 169, 54));
-        ajouter4.setForeground(new java.awt.Color(255, 255, 255));
-        ajouter4.setText("Ajouter");
-        ajouter4.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        ajouter4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        ajouter4.setRadius(40);
-        ajouter4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ajouter4MouseClicked(evt);
-            }
-        });
-        ajouter4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ajouter4ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(ajouter4);
-        ajouter4.setBounds(50, 220, 110, 33);
-
-        ajouter5.setBackground(new java.awt.Color(0, 169, 54));
-        ajouter5.setForeground(new java.awt.Color(255, 255, 255));
-        ajouter5.setText("Modifier");
-        ajouter5.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        ajouter5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        ajouter5.setRadius(40);
-        ajouter5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ajouter5MouseClicked(evt);
-            }
-        });
-        ajouter5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ajouter5ActionPerformed(evt);
-            }
-        });
-        jPanel5.add(ajouter5);
-        ajouter5.setBounds(170, 220, 120, 33);
-
-        add(jPanel5);
-        jPanel5.setBounds(10, 310, 450, 290);
-
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setLayout(null);
-
-        nom8.setBackground(new java.awt.Color(235, 235, 235));
-        nom8.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        nom8.setForeground(new java.awt.Color(51, 51, 51));
-        nom8.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
-        nom8.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        nom8.setName(""); // NOI18N
-        nom8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nom8ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(nom8);
-        nom8.setBounds(160, 140, 201, 40);
-
-        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel16.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel16.setText("Entete facture de vente");
-        jPanel6.add(jLabel16);
-        jLabel16.setBounds(140, 20, 200, 25);
-
-        nom9.setBackground(new java.awt.Color(235, 235, 235));
-        nom9.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        nom9.setForeground(new java.awt.Color(51, 51, 51));
-        nom9.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
-        nom9.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        nom9.setName(""); // NOI18N
-        nom9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nom9ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(nom9);
-        nom9.setBounds(160, 220, 201, 40);
-
-        jLabel17.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel17.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel17.setText("Client");
-        jPanel6.add(jLabel17);
-        jLabel17.setBounds(40, 150, 37, 20);
-
-        nom10.setBackground(new java.awt.Color(235, 235, 235));
-        nom10.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        nom10.setForeground(new java.awt.Color(51, 51, 51));
-        nom10.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
-        nom10.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        nom10.setName(""); // NOI18N
-        nom10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nom10ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(nom10);
-        nom10.setBounds(160, 70, 201, 40);
-
-        jLabel18.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel18.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel18.setText("Date de vente");
-        jPanel6.add(jLabel18);
-        jLabel18.setBounds(40, 230, 91, 20);
-
-        jLabel19.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel19.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel19.setText("Ref. vente");
-        jPanel6.add(jLabel19);
-        jLabel19.setBounds(40, 80, 62, 20);
-
-        add(jPanel6);
-        jPanel6.setBounds(10, 10, 450, 290);
+        add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, 760, 690));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ajouter1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouter1MouseClicked
+    private void quantite_prodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantite_prodActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ajouter1MouseClicked
+    }//GEN-LAST:event_quantite_prodActionPerformed
 
-    private void ajouter1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouter1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ajouter1ActionPerformed
+    private void supprimer_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supprimer_produitMouseClicked
+        DefaultTableModel model = (DefaultTableModel)produit_ajoutes.getModel();
+        //Ligne sélectionnée
+        int rowindex = produit_ajoutes.getSelectedRow();
+        
+        JOptionPane.showMessageDialog(null, "article supprimé");
+        model.removeRow(rowindex);
+        java.util.List<Double> list = new ArrayList<Double>(); 
 
-    private void nom6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nom6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nom6ActionPerformed
+        //Calcul du montant ------------------------------
+        for (int count = 0; count < model.getRowCount(); count++)
+        {
+                list.add((Double) model.getValueAt(count, 4));
+        }
+        // somme total
+        double somme = list.stream().mapToDouble(Double::doubleValue).sum();
+        
+        double montant_a_supprimer =(double)produit_ajoutes.getValueAt(rowindex,4);  
+        double nouveau_montant = somme - montant_a_supprimer;
+        System.out.println(nouveau_montant);
+        
+        //String nouveau_somme_convertie = ""+nouveau_montant;
+        //montant_total.setText(nouveau_somme_convertie);
+        //------------------------------
+        //Message de suppression
+        //this.validate();
+        //this.repaint();
+    }//GEN-LAST:event_supprimer_produitMouseClicked
 
-    private void nom7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nom7ActionPerformed
+    private void supprimer_produitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supprimer_produitActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nom7ActionPerformed
+    }//GEN-LAST:event_supprimer_produitActionPerformed
 
-    private void ajouter3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouter3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ajouter3MouseClicked
+    private void ajouter_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouter_produitMouseClicked
+        dtm.addColumn("N°");
+        dtm.addColumn("Désignation");
+        dtm.addColumn("Quantité");
+        dtm.addColumn("Prix unitaire");
+        dtm.addColumn("Montant");
+        
+        java.util.List<Double> list = new ArrayList<Double>(); 
 
-    private void ajouter3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouter3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ajouter3ActionPerformed
+        String designation_prod = (String) produit_choisi.getSelectedItem();
+        //Conversion et gestion de l'exception de conversion du double
+        message_qte_error.setText("");
+        try {
+            
+            Double qte  = new Double(quantite_prod.getText());
+            DefaultTableModel model = (DefaultTableModel)produit_ajoutes.getModel();
+            //Récupération du prix unitaire du produit sélectionné
+            
+            try {
+                //connexion à la base de données
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=utf-8","root","");
+                st = co.createStatement();
 
-    private void ajouter4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouter4MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ajouter4MouseClicked
+                //Traitement automatique de la référence de la facture
+                rs = st.executeQuery("SELECT prix_vente FROM produit WHERE lib_produit = '"+designation_prod+"'");
+                while(rs.next())
+                {
+                    double prix_vente = rs.getDouble("prix_vente");
+                    double montant = prix_vente*qte;
+                    model.addRow(new Object[]{produit_ajoutes.getRowCount()+1, designation_prod,qte,prix_vente,montant});
 
-    private void ajouter4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouter4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ajouter4ActionPerformed
+                    
+                    //Somme des montants
+                    //List<Double> numdata = new ArrayList<>();
+                    //list.add(montant);
+                    
+                    for (int count = 0; count < model.getRowCount(); count++){
+                          list.add((Double) model.getValueAt(count, 4));
+                    }
+                    double somme = list.stream().mapToDouble(Double::doubleValue).sum();
+                    String somme_convertie = ""+somme;
+                    montant_total.setText(somme_convertie);
 
-    private void ajouter5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouter5MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ajouter5MouseClicked
 
-    private void ajouter5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouter5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ajouter5ActionPerformed
+                    //System.out.println(numdata); 
+                }
+                } catch (Exception e) 
+                {
+                    message_qte_error.setText("Problème de connexion !!");
+                }
+         
+        } catch (Exception e) 
+        {
+            //Message d'erreur si l'utilisateur entre une texte au lieu d'un nombre
+            message_qte_error.setForeground(Color.red);
+            message_qte_error.setText("Entrer une valeur numérique");
+        }
+        
 
-    private void ajouter2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouter2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ajouter2ActionPerformed
+    }//GEN-LAST:event_ajouter_produitMouseClicked
 
-    private void ajouter2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouter2MouseClicked
+    private void modifier_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifier_produitMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_ajouter2MouseClicked
+    }//GEN-LAST:event_modifier_produitMouseClicked
 
-    private void nom8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nom8ActionPerformed
+    private void modifier_produitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifier_produitActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nom8ActionPerformed
+    }//GEN-LAST:event_modifier_produitActionPerformed
 
-    private void nom9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nom9ActionPerformed
+    private void ref_vente_autoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ref_vente_autoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nom9ActionPerformed
+    }//GEN-LAST:event_ref_vente_autoActionPerformed
 
-    private void nom10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nom10ActionPerformed
+    private void montant_totalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_montant_totalActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nom10ActionPerformed
+    }//GEN-LAST:event_montant_totalActionPerformed
+
+    private void nom12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nom12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nom12ActionPerformed
+
+    private void nom13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nom13ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nom13ActionPerformed
+
+    private void valider_venteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valider_venteMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_valider_venteMouseClicked
+
+    private void valider_venteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valider_venteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_valider_venteActionPerformed
+
+    private void imprimer_factureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imprimer_factureMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_imprimer_factureMouseClicked
+
+    private void imprimer_factureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimer_factureActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_imprimer_factureActionPerformed
+
+    private void ajouter_new_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouter_new_produitMouseClicked
+        new Nouveau_produit().setVisible(true);
+    }//GEN-LAST:event_ajouter_new_produitMouseClicked
+
+    private void ajouter_new_produitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouter_new_produitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ajouter_new_produitActionPerformed
+
+    private void ajouter_clientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouter_clientMouseClicked
+        new Nouveau_Client().setVisible(true);
+    }//GEN-LAST:event_ajouter_clientMouseClicked
+
+    private void ajouter_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouter_clientActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ajouter_clientActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private produitbio.Button_perso ajouter1;
-    private produitbio.Button_perso ajouter2;
-    private produitbio.Button_perso ajouter3;
-    private produitbio.Button_perso ajouter4;
-    private produitbio.Button_perso ajouter5;
-    private javax.swing.JLabel jLabel12;
+    private produitbio.Button_perso ajouter_client;
+    private produitbio.Button_perso ajouter_new_produit;
+    private produitbio.Button_perso ajouter_produit;
+    private produitbio.Button_perso imprimer_facture;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField nom10;
-    private javax.swing.JTextField nom6;
-    private javax.swing.JTextField nom7;
-    private javax.swing.JTextField nom8;
-    private javax.swing.JTextField nom9;
+    private javax.swing.JComboBox liste_client;
+    private javax.swing.JLabel message_qte_error;
+    private produitbio.Button_perso modifier_produit;
+    private javax.swing.JTextField montant_total;
+    private javax.swing.JTextField nom12;
+    private javax.swing.JTextField nom13;
+    private javax.swing.JTable produit_ajoutes;
+    private javax.swing.JComboBox produit_choisi;
+    private javax.swing.JTextField quantite_prod;
+    private javax.swing.JTextField ref_vente_auto;
+    private produitbio.Button_perso supprimer_produit;
+    private produitbio.Button_perso valider_vente;
     // End of variables declaration//GEN-END:variables
+        DefaultTableModel dtm = new DefaultTableModel();
+        
+        ResultSet rs = null;
+        ResultSet rs2 = null;
+        Statement st = null;
+        Connection co = null;
 }

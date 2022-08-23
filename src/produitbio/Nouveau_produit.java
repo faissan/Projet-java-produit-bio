@@ -46,10 +46,9 @@ public class Nouveau_produit extends javax.swing.JFrame {
                 while(rs.next()){
                    String categorie_produit = rs.getString("libelle_cat");
                    
-                    byte[] catBytes = categorie_produit.getBytes(StandardCharsets.UTF_8);
-
+                   /*byte[] catBytes = categorie_produit.getBytes(StandardCharsets.UTF_8);
                    String asciiEncodedString = new String(catBytes, StandardCharsets.UTF_8);
-                   System.out.println("Categorie "+asciiEncodedString);
+                   System.out.println("Categorie "+asciiEncodedString);*/
                    
                    //System.out.println(StandardCharsets.UTF_8.decode(StandardCharsets.UTF_8.encode(categorie_produit)).toString() );
                    categorie_poduit.addItem(categorie_produit);

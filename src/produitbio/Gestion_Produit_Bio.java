@@ -7,14 +7,19 @@ package produitbio;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,6 +37,26 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         //Affichage du nom et du prenom de l'utilisateur actif
         Singleton user = Singleton.getInstance();
         String userLogin =user.getUserLogin();
+        
+        //Horloge de la fenetre principale
+        horloge.setText(
+           DateFormat.getDateTimeInstance().format(new Date())
+         );
+        //add(horloge);
+        Timer t = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              horloge.setText(
+                 DateFormat.getDateTimeInstance().format(new Date())
+              );
+            }          
+         });
+         t.setRepeats(true);
+         t.setCoalesce(true);
+         t.setInitialDelay(0);
+         t.start();
+         //Fin horloge
+         
         //System.out.println("Login actif: "+user.getUserLogin());
         
         try {
@@ -127,14 +152,14 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         affiche_nom_prenom_user = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
-        jXSearchField1 = new org.jdesktop.swingx.JXSearchField();
+        horloge = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         user_main_jframe = new javax.swing.JLabel();
         profil_main_jframe = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         se_deconnecter = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         content_dash_layout = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         footer_layout = new javax.swing.JPanel();
@@ -395,7 +420,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         jPanel9.setLayout(new java.awt.GridLayout(1, 0));
         Menu_recherche_layout.add(jPanel9, java.awt.BorderLayout.CENTER);
 
-        jPanel15.setLayout(new java.awt.BorderLayout());
+        jPanel15.setLayout(new javax.swing.BoxLayout(jPanel15, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel12.setBackground(new java.awt.Color(217, 217, 217));
         jPanel12.setPreferredSize(new java.awt.Dimension(300, 22));
@@ -411,24 +436,16 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         affiche_nom_prenom_user.setText("Francois AISSAN");
         jPanel12.add(affiche_nom_prenom_user, new java.awt.GridBagConstraints());
 
-        jPanel15.add(jPanel12, java.awt.BorderLayout.LINE_START);
+        jPanel15.add(jPanel12);
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
         jPanel14.setPreferredSize(new java.awt.Dimension(400, 0));
         jPanel14.setLayout(new java.awt.BorderLayout());
 
-        jXSearchField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jXSearchField1.setToolTipText("Rechercher");
-        jXSearchField1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
-        jXSearchField1.setHighlighter(null);
-        jXSearchField1.setLayoutStyle(org.jdesktop.swingx.JXSearchField.LayoutStyle.MAC);
-        jXSearchField1.setPrompt("Rechercher");
-        jXSearchField1.setPromptBackround(java.awt.Color.white);
-        jXSearchField1.setPromptFontStyle(new java.lang.Integer(0));
-        jXSearchField1.setPromptForeground(new java.awt.Color(102, 102, 102));
-        jXSearchField1.setRecentSearchesSaveKey("");
-        jPanel14.add(jXSearchField1, java.awt.BorderLayout.CENTER);
+        horloge.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        horloge.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jPanel14.add(horloge, java.awt.BorderLayout.CENTER);
 
         jPanel4.add(jPanel14, java.awt.BorderLayout.LINE_START);
 
@@ -446,6 +463,13 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         profil_main_jframe.setBackground(new java.awt.Color(217, 217, 217));
         profil_main_jframe.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 12)); // NOI18N
 
+        se_deconnecter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-sortie-40.png"))); // NOI18N
+        se_deconnecter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                se_deconnecterMouseClicked(evt);
+            }
+        });
+
         jLabel3.setBackground(new java.awt.Color(217, 217, 217));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-utilisateur-40.png"))); // NOI18N
 
@@ -454,24 +478,28 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(user_main_jframe, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addComponent(profil_main_jframe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(user_main_jframe, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                    .addComponent(profil_main_jframe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(se_deconnecter)
+                .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(user_main_jframe)
-                        .addGap(4, 4, 4)
-                        .addComponent(profil_main_jframe, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel3))
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(se_deconnecter)
+                        .addGroup(jPanel10Layout.createSequentialGroup()
+                            .addComponent(user_main_jframe, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(22, 22, 22)))
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(profil_main_jframe, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -482,26 +510,18 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(60, 60, 60))
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, Short.MAX_VALUE)
+            .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, Short.MAX_VALUE)
         );
 
         jPanel13.add(jPanel18);
 
-        se_deconnecter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-sortie-40.png"))); // NOI18N
-        se_deconnecter.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                se_deconnecterMouseClicked(evt);
-            }
-        });
-        jPanel13.add(se_deconnecter);
-
         jPanel4.add(jPanel13, java.awt.BorderLayout.CENTER);
 
-        jPanel15.add(jPanel4, java.awt.BorderLayout.CENTER);
+        jPanel15.add(jPanel4);
 
         Menu_recherche_layout.add(jPanel15, java.awt.BorderLayout.CENTER);
 
@@ -762,6 +782,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
     private produitbio.Button_perso gestion_produit;
     private produitbio.Button_perso gestion_user;
     private produitbio.Button_perso gestion_ventes;
+    private javax.swing.JLabel horloge;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -782,7 +803,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private org.jdesktop.swingx.JXSearchField jXSearchField1;
     private produitbio.Button_perso parametre;
     private javax.swing.JLabel profil_main_jframe;
     private javax.swing.JLabel se_deconnecter;
