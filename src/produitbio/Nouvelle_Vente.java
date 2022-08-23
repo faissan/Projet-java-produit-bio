@@ -504,32 +504,47 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
     }//GEN-LAST:event_quantite_prodActionPerformed
 
     private void supprimer_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supprimer_produitMouseClicked
-        DefaultTableModel model = (DefaultTableModel)produit_ajoutes.getModel();
-        //Ligne sélectionnée
-        int rowindex = produit_ajoutes.getSelectedRow();
-        
-        JOptionPane.showMessageDialog(null, "article supprimé");
-        model.removeRow(rowindex);
-        java.util.List<Double> list = new ArrayList<Double>(); 
+        if(JOptionPane.showConfirmDialog(null, "Voulez-vous supprimer?", "SUPPRESSION",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            DefaultTableModel model = (DefaultTableModel)produit_ajoutes.getModel();
+            //Ligne sélectionnée
+            int rowindex = produit_ajoutes.getSelectedRow();
+            //java.util.List<Double> list = new ArrayList<Double>(); 
+            //Recupération et conversion du montant ------------------------------
+            
+            System.out.println("Index: "+rowindex);
+            String montant_total_string =  montant_total.getText();
+            Double montant_total_double = new Double(montant_total_string);
+            
+            System.out.println("Montant actuel double: "+montant_total_double);
+            
+            double montant_a_supprimer = (double) produit_ajoutes.getValueAt(rowindex,4);  
+            
+            double nouveau_montant = montant_total_double - montant_a_supprimer;
 
-        //Calcul du montant ------------------------------
-        for (int count = 0; count < model.getRowCount(); count++)
-        {
-                list.add((Double) model.getValueAt(count, 4));
+            System.out.println(nouveau_montant);
+            
+            
+            //Double montant_total_double = new Double(montant_total_string);
+            // somme total
+            //double somme = list.stream().mapToDouble(Double::doubleValue).sum();
+            //System.out.println(montant_total_double);
+
+            //Double montant_a_supprimer =new Double((double) produit_ajoutes.getValueAt(rowindex,4));  
+
+            //System.out.println(montant_a_supprimer);
+            //double nouveau_montant = montant_total_double - montant_a_supprimer;
+            
+            montant_total.setText(""+nouveau_montant);
+            //System.out.println(nouveau_montant);
+            //String nouveau_somme_convertie = ""+nouveau_montant;
+            //montant_total.setText(nouveau_somme_convertie);
+            //------------------------------
+            //Message de suppression
+            //this.validate();
+            JOptionPane.showMessageDialog(null, "article supprimé");
+            model.removeRow(rowindex);
+            this.repaint();
         }
-        // somme total
-        double somme = list.stream().mapToDouble(Double::doubleValue).sum();
-        
-        double montant_a_supprimer =(double)produit_ajoutes.getValueAt(rowindex,4);  
-        double nouveau_montant = somme - montant_a_supprimer;
-        System.out.println(nouveau_montant);
-        
-        //String nouveau_somme_convertie = ""+nouveau_montant;
-        //montant_total.setText(nouveau_somme_convertie);
-        //------------------------------
-        //Message de suppression
-        //this.validate();
-        //this.repaint();
     }//GEN-LAST:event_supprimer_produitMouseClicked
 
     private void supprimer_produitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supprimer_produitActionPerformed
@@ -654,7 +669,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_ajouter_clientActionPerformed
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private produitbio.Button_perso ajouter_client;
     private produitbio.Button_perso ajouter_new_produit;
@@ -690,10 +704,10 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
     private produitbio.Button_perso supprimer_produit;
     private produitbio.Button_perso valider_vente;
     // End of variables declaration//GEN-END:variables
-        DefaultTableModel dtm = new DefaultTableModel();
+    DefaultTableModel dtm = new DefaultTableModel();
         
-        ResultSet rs = null;
-        ResultSet rs2 = null;
-        Statement st = null;
-        Connection co = null;
+    ResultSet rs = null;
+    ResultSet rs2 = null;
+    Statement st = null;
+    Connection co = null;
 }
