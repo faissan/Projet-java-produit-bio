@@ -7,9 +7,9 @@ package produitbio;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
@@ -33,6 +33,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         //System.out.println(annee_courante_deux_bit);   
         Font myFont2 = new Font("Yu Gothic UI Semilight", Font.BOLD, 16);
         produit_ajoutes.getTableHeader().setFont(myFont2);
+        montant_total.setText("0.0");
         
         Singleton user = Singleton.getInstance();
         String userLogin =user.getUserLogin();
@@ -66,10 +67,12 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                     //System.out.println(reference_auto);
                 }
                 //Recuperation des resultats 
-                rs = st.executeQuery("SELECT nom_prenoms_client FROM client");
+                rs = st.executeQuery("SELECT point_client,nom_prenoms_client FROM client");
                 
                 while(rs.next()){
-                   String client_l = rs.getString("nom_prenoms_client");                  
+                   String client_l = rs.getString("nom_prenoms_client");
+                   String point_client = rs.getString("point_client");
+                   reduction.setText(point_client);
                    liste_client.addItem(client_l);
                 }
                 
@@ -124,11 +127,11 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         produit_ajoutes = new javax.swing.JTable();
         jLabel20 = new javax.swing.JLabel();
-        montant_total = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        nom12 = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
-        nom13 = new javax.swing.JTextField();
+        reduction = new javax.swing.JLabel();
+        montant_total = new javax.swing.JLabel();
+        net_a_payer = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(217, 217, 217));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -183,7 +186,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         ajouter_client.setBackground(new java.awt.Color(217, 217, 217));
         ajouter_client.setForeground(new java.awt.Color(255, 255, 255));
         ajouter_client.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-plus-50.png"))); // NOI18N
-        ajouter_client.setBorderColor(new java.awt.Color(51, 51, 51));
+        ajouter_client.setBorderColor(new java.awt.Color(217, 217, 217));
         ajouter_client.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
         ajouter_client.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ajouter_client.setRadius(50);
@@ -302,7 +305,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         ajouter_new_produit.setBackground(new java.awt.Color(217, 217, 217));
         ajouter_new_produit.setForeground(new java.awt.Color(255, 255, 255));
         ajouter_new_produit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-plus-50.png"))); // NOI18N
-        ajouter_new_produit.setBorderColor(new java.awt.Color(51, 51, 51));
+        ajouter_new_produit.setBorderColor(new java.awt.Color(217, 217, 217));
         ajouter_new_produit.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
         ajouter_new_produit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ajouter_new_produit.setRadius(50);
@@ -438,65 +441,38 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         jLabel20.setForeground(new java.awt.Color(51, 51, 51));
         jLabel20.setText("Montant total");
         jPanel4.add(jLabel20);
-        jLabel20.setBounds(90, 590, 90, 20);
-
-        montant_total.setBackground(new java.awt.Color(235, 235, 235));
-        montant_total.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        montant_total.setForeground(new java.awt.Color(51, 51, 51));
-        montant_total.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
-        montant_total.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        montant_total.setName(""); // NOI18N
-        montant_total.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                montant_totalActionPerformed(evt);
-            }
-        });
-        jPanel4.add(montant_total);
-        montant_total.setBounds(20, 620, 240, 40);
+        jLabel20.setBounds(20, 590, 90, 20);
 
         jLabel21.setBackground(new java.awt.Color(255, 255, 255));
         jLabel21.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(51, 51, 51));
         jLabel21.setText("Reduction");
         jPanel4.add(jLabel21);
-        jLabel21.setBounds(380, 590, 80, 20);
-
-        nom12.setBackground(new java.awt.Color(235, 235, 235));
-        nom12.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        nom12.setForeground(new java.awt.Color(51, 51, 51));
-        nom12.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
-        nom12.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        nom12.setName(""); // NOI18N
-        nom12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nom12ActionPerformed(evt);
-            }
-        });
-        jPanel4.add(nom12);
-        nom12.setBounds(320, 620, 201, 40);
+        jLabel21.setBounds(280, 590, 80, 20);
 
         jLabel22.setBackground(new java.awt.Color(255, 255, 255));
         jLabel22.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(51, 51, 51));
         jLabel22.setText("Total net à payer");
         jPanel4.add(jLabel22);
-        jLabel22.setBounds(600, 590, 110, 20);
+        jLabel22.setBounds(550, 590, 110, 20);
 
-        nom13.setBackground(new java.awt.Color(235, 235, 235));
-        nom13.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
-        nom13.setForeground(new java.awt.Color(51, 51, 51));
-        nom13.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 2, 2, 2));
-        nom13.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        nom13.setName(""); // NOI18N
-        nom13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nom13ActionPerformed(evt);
-            }
-        });
-        jPanel4.add(nom13);
-        nom13.setBounds(550, 620, 200, 40);
+        reduction.setBackground(new java.awt.Color(217, 217, 217));
+        reduction.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        jPanel4.add(reduction);
+        reduction.setBounds(280, 620, 210, 40);
 
-        add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, 760, 690));
+        montant_total.setBackground(new java.awt.Color(217, 217, 217));
+        montant_total.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        jPanel4.add(montant_total);
+        montant_total.setBounds(20, 620, 210, 40);
+
+        net_a_payer.setBackground(new java.awt.Color(217, 217, 217));
+        net_a_payer.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        jPanel4.add(net_a_payer);
+        net_a_payer.setBounds(560, 620, 190, 40);
+
+        add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, 770, 690));
     }// </editor-fold>//GEN-END:initComponents
 
     private void quantite_prodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantite_prodActionPerformed
@@ -510,7 +486,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             int rowindex = produit_ajoutes.getSelectedRow();
 
             System.out.println("Index: "+rowindex);
-            String montant_total_string =  montant_total.getText();
+            String montant_total_string =  reduction.getText();
             Double montant_total_double = new Double(montant_total_string);
             
             System.out.println("Montant actuel double: "+montant_total_double);
@@ -519,7 +495,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             
             double nouveau_montant = montant_total_double - montant_a_supprimer;
             System.out.println(nouveau_montant);                                         
-            montant_total.setText(""+nouveau_montant);            
+            reduction.setText(""+nouveau_montant);            
             model.removeRow(rowindex);
         }
     }//GEN-LAST:event_supprimer_produitMouseClicked
@@ -540,6 +516,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         String designation_prod = (String) produit_choisi.getSelectedItem();
         //Conversion et gestion de l'exception de conversion du double
         message_qte_error.setText("");
+        //montant_total.setText("0.0");
         try {
             
             Double qte  = new Double(quantite_prod.getText());
@@ -571,9 +548,9 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                     double somme = list.stream().mapToDouble(Double::doubleValue).sum();
                     String somme_convertie = ""+somme;
                     montant_total.setText(somme_convertie);
+                    //Réinitialisation du champ
+                    quantite_prod.setText("");
 
-
-                    //System.out.println(numdata); 
                 }
                 } catch (Exception e) 
                 {
@@ -591,7 +568,25 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
     }//GEN-LAST:event_ajouter_produitMouseClicked
 
     private void modifier_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifier_produitMouseClicked
-        // TODO add your handling code here:
+        
+        
+        DefaultTableModel dt = (DefaultTableModel)produit_ajoutes.getModel();
+        int index = produit_ajoutes.getSelectedRow();
+        
+        String design_produit = (String) produit_ajoutes.getValueAt(index,1);
+        produit_choisi.setSelectedItem(design_produit);
+        
+        String qte_produit_string = (String) produit_ajoutes.getValueAt(index,2);
+        
+
+/*
+        String designation_prod = (String) produit_choisi.getSelectedItem();
+        Double qte  = new Double(quantite_prod.getText());       
+        
+        dt.setValueAt(designation_prod, index, 1);
+        dt.setValueAt(qte, index, 2);
+
+        quantite_prod.setText("");*/
     }//GEN-LAST:event_modifier_produitMouseClicked
 
     private void modifier_produitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifier_produitActionPerformed
@@ -602,20 +597,52 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_ref_vente_autoActionPerformed
 
-    private void montant_totalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_montant_totalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_montant_totalActionPerformed
-
-    private void nom12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nom12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nom12ActionPerformed
-
-    private void nom13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nom13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nom13ActionPerformed
-
     private void valider_venteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valider_venteMouseClicked
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)produit_ajoutes.getModel();
+        if (model.getRowCount() == 0)
+        {
+            JOptionPane.showMessageDialog(this, "Panier vide");
+        }
+        else
+        {
+            String ref_vente = ref_vente_auto.getText();
+            String designation_prod= "";
+            Double qte_ajoute;
+            try {
+                //connexion à la base de données
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=utf-8","root","");
+                st = co.createStatement();
+                System.out.println("Nombre de ligne: "+model.getRowCount());
+                
+                for(int i = 0; i< model.getRowCount(); i++)
+                {
+                    designation_prod = produit_ajoutes.getValueAt(i, 1).toString();
+                    System.out.println(ref_vente);
+                    System.out.println(designation_prod);
+                    
+                    qte_ajoute = new Double( produit_ajoutes.getValueAt(i, 2).toString());
+                    System.out.println(qte_ajoute);
+                    
+                    String sql_query ="INSERT INTO produits_vendus(ref_vente,ref_prod,qte) values(?,?,?)";
+                    
+                    prepstmt = co.prepareStatement(sql_query);
+                    prepstmt.setString(1, ref_vente);
+                    prepstmt.setString(2, designation_prod);
+                    prepstmt.setDouble(3, qte_ajoute);
+                    System.out.println("fin avant prs ok: "+i);
+
+                    prepstmt.execute();                   
+                    System.out.println("fin ok: "+i);
+                    //st.executeUpdate("INSERT INTO produit_vendu(ref_vente,ref_prod,qte_prod) values('"+ref_vente+"','"+designation_prod+"','"+qte_ajoute+"')");
+                }               
+                //Notification
+                JOptionPane.showMessageDialog(this, "Produit enregistrés...");
+                model.setRowCount(0);            
+             } catch (Exception e) {
+           //message_error_cat.setText("Problème de connexion !!");
+        }  
+        }
     }//GEN-LAST:event_valider_venteMouseClicked
 
     private void valider_venteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valider_venteActionPerformed
@@ -671,12 +698,12 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
     private javax.swing.JComboBox liste_client;
     private javax.swing.JLabel message_qte_error;
     private produitbio.Button_perso modifier_produit;
-    private javax.swing.JTextField montant_total;
-    private javax.swing.JTextField nom12;
-    private javax.swing.JTextField nom13;
+    private javax.swing.JLabel montant_total;
+    private javax.swing.JLabel net_a_payer;
     private javax.swing.JTable produit_ajoutes;
     private javax.swing.JComboBox produit_choisi;
     private javax.swing.JTextField quantite_prod;
+    private javax.swing.JLabel reduction;
     private javax.swing.JTextField ref_vente_auto;
     private produitbio.Button_perso supprimer_produit;
     private produitbio.Button_perso valider_vente;
@@ -686,5 +713,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
     ResultSet rs = null;
     ResultSet rs2 = null;
     Statement st = null;
+    PreparedStatement prepstmt= null;
     Connection co = null;
 }
