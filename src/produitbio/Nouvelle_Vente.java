@@ -29,7 +29,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
      */
     public Nouvelle_Vente() {
         initComponents();
-        String annee_courante_deux_bit = new SimpleDateFormat("yy").format(new Date());
+        String annee_courante_deux_bit = new SimpleDateFormat("yy").format(new Date());        
         //System.out.println(annee_courante_deux_bit);   
         Font myFont2 = new Font("Yu Gothic UI Semilight", Font.BOLD, 16);
         produit_ajoutes.getTableHeader().setFont(myFont2);
@@ -58,11 +58,11 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                //fin du traitement de l'affichage du bouton d'ajoute de produit par le vendeur
                 
                 //Traitement automatique de la référence de la facture
-                rs = st.executeQuery("SELECT max(id_vente) as dernier_id_v FROM vente");
+                rs = st.executeQuery("SELECT count(id_vente) as dernier_id_v FROM vente");
                 while(rs.next()){
                     int dernier_id_vente = rs.getInt("dernier_id_v");
                     int id_vente_suivant = dernier_id_vente +1;
-                    String reference_auto = "BK-000"+id_vente_suivant+"-"+annee_courante_deux_bit;
+                    reference_auto = "BK-000"+id_vente_suivant+"-"+annee_courante_deux_bit;
                     ref_vente_auto.setText(reference_auto);
                     //System.out.println(reference_auto);
                 }
@@ -607,40 +607,60 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         {
             String ref_vente = ref_vente_auto.getText();
             String designation_prod= "";
-            Double qte_ajoute;
+            Double qte_ajoute,montant_total_net;
             try {
                 //connexion à la base de données
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=utf-8","root","");
                 st = co.createStatement();
-                System.out.println("Nombre de ligne: "+model.getRowCount());
                 
+                //Enregistrement des produits dans la bd
                 for(int i = 0; i< model.getRowCount(); i++)
                 {
                     designation_prod = produit_ajoutes.getValueAt(i, 1).toString();
-                    System.out.println(ref_vente);
-                    System.out.println(designation_prod);
-                    
                     qte_ajoute = new Double( produit_ajoutes.getValueAt(i, 2).toString());
-                    System.out.println(qte_ajoute);
-                    
-                    String sql_query ="INSERT INTO produits_vendus(ref_vente,ref_prod,qte) values(?,?,?)";
-                    
+                    //Enregistrement des produits
+                    String sql_query ="INSERT INTO produits_vendus(ref_vente,ref_prod,qte) values(?,?,?)";                  
                     prepstmt = co.prepareStatement(sql_query);
                     prepstmt.setString(1, ref_vente);
                     prepstmt.setString(2, designation_prod);
                     prepstmt.setDouble(3, qte_ajoute);
-                    System.out.println("fin avant prs ok: "+i);
+                    prepstmt.execute();                                   
+                }
+                // Variables pour l'enregistrement de la vente
+                montant_total_net = new Double(montant_total.getText());//a revoir
+                String date_vente = new SimpleDateFormat().format(new Date());
+                String nom_prenom_client = liste_client.getSelectedItem().toString();
+                int ref_client_int = 0;
+                double point_cli = 0;
 
-                    prepstmt.execute();                   
-                    System.out.println("fin ok: "+i);
-                    //st.executeUpdate("INSERT INTO produit_vendu(ref_vente,ref_prod,qte_prod) values('"+ref_vente+"','"+designation_prod+"','"+qte_ajoute+"')");
-                }               
+                //st.executeUpdate("INSERT INTO produit_vendu(ref_vente,ref_prod,qte_prod) values('"+ref_vente+"','"+designation_prod+"','"+qte_ajoute+"')");
+                
+                //Recupération du point du client et de sa ref
+                rs = st.executeQuery("SELECT ref_client,point_client FROM client WHERE nom_prenoms_client = '"+nom_prenom_client+"'");
+                if(rs.next())
+                {
+                    //System.out.println("dedant:"+rs);
+                    ref_client_int = (int) rs.getObject(1);
+                    point_cli = (double)rs.getObject(2);
+                }
+
+                //Enregistrement de la vente proprement dite
+                st.executeUpdate("INSERT INTO vente(ref_vente,ref_client,date_vente,montant_net) values('"+ref_vente+"','"+ref_client_int+"','"+date_vente+"','"+montant_total_net+"')");
+                
+                //Mise à jour du point du client
+                //Calcul du point du client
+                double point_calcule = montant_total_net*0.0005 +point_cli; 
+                st.executeUpdate("UPDATE client SET point_client= "+point_calcule+" where ref_client ="+ref_client_int+"");                
+                co.close();                           
                 //Notification
-                JOptionPane.showMessageDialog(this, "Produit enregistrés...");
-                model.setRowCount(0);            
+                JOptionPane.showMessageDialog(this, "Vente enregistrée...");
+                model.setRowCount(0); 
+                
+                ref_vente_auto.setText(reference_auto);
+
              } catch (Exception e) {
-           //message_error_cat.setText("Problème de connexion !!");
+                System.out.println("Probleme");
         }  
         }
     }//GEN-LAST:event_valider_venteMouseClicked
@@ -709,10 +729,11 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
     private produitbio.Button_perso valider_vente;
     // End of variables declaration//GEN-END:variables
     DefaultTableModel dtm = new DefaultTableModel();
-        
+    String reference_auto ="";    
     ResultSet rs = null;
-    ResultSet rs2 = null;
     Statement st = null;
     PreparedStatement prepstmt= null;
+    PreparedStatement prepstmt1= null;
+
     Connection co = null;
 }
