@@ -5,8 +5,21 @@
  */
 package produitbio;
 
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.VerticalAlignment;
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,6 +28,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -72,7 +87,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 while(rs.next()){
                    String client_l = rs.getString("nom_prenoms_client");
                    String point_client = rs.getString("point_client");
-                   reduction.setText(point_client);
                    liste_client.addItem(client_l);
                 }
                 
@@ -101,23 +115,27 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         ref_vente_auto = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         liste_client = new javax.swing.JComboBox();
         ajouter_client = new produitbio.Button_perso();
+        jLabel18 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         quantite_prod = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
         supprimer_produit = new produitbio.Button_perso();
         ajouter_produit = new produitbio.Button_perso();
         modifier_produit = new produitbio.Button_perso();
         produit_choisi = new javax.swing.JComboBox();
         message_qte_error = new javax.swing.JLabel();
         ajouter_new_produit = new produitbio.Button_perso();
+        jLabel16 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        utiliser_point = new produitbio.Button_perso();
+        jLabel24 = new javax.swing.JLabel();
+        voir_point = new produitbio.Button_perso();
         jPanel7 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         valider_vente = new produitbio.Button_perso();
@@ -132,6 +150,8 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         reduction = new javax.swing.JLabel();
         montant_total = new javax.swing.JLabel();
         net_a_payer = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        affiche_point_client = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(217, 217, 217));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -140,13 +160,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setLayout(null);
-
-        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel16.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel16.setText("Entete facture de vente");
-        jPanel6.add(jLabel16);
-        jLabel16.setBounds(100, 20, 200, 25);
 
         jLabel17.setBackground(new java.awt.Color(255, 255, 255));
         jLabel17.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
@@ -203,6 +216,13 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         jPanel6.add(ajouter_client);
         ajouter_client.setBounds(390, 140, 40, 40);
 
+        jLabel18.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel18.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel18.setText("Entete facture de vente");
+        jPanel6.add(jLabel18);
+        jLabel18.setBounds(10, 20, 200, 25);
+
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(null);
 
@@ -211,14 +231,14 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         jLabel13.setForeground(new java.awt.Color(51, 51, 51));
         jLabel13.setText("Ref. produit");
         jPanel5.add(jLabel13);
-        jLabel13.setBounds(20, 90, 90, 20);
+        jLabel13.setBounds(20, 70, 90, 20);
 
         jLabel14.setBackground(new java.awt.Color(255, 255, 255));
         jLabel14.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(51, 51, 51));
         jLabel14.setText("Quantité");
         jPanel5.add(jLabel14);
-        jLabel14.setBounds(20, 160, 70, 20);
+        jLabel14.setBounds(20, 140, 70, 20);
 
         quantite_prod.setBackground(new java.awt.Color(235, 235, 235));
         quantite_prod.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
@@ -232,14 +252,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             }
         });
         jPanel5.add(quantite_prod);
-        quantite_prod.setBounds(120, 150, 260, 40);
-
-        jLabel15.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel15.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel15.setText("Ajout des produits");
-        jPanel5.add(jLabel15);
-        jLabel15.setBounds(110, 20, 170, 25);
+        quantite_prod.setBounds(120, 130, 260, 40);
 
         supprimer_produit.setBackground(new java.awt.Color(0, 169, 54));
         supprimer_produit.setForeground(new java.awt.Color(255, 255, 255));
@@ -258,7 +271,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             }
         });
         jPanel5.add(supprimer_produit);
-        supprimer_produit.setBounds(280, 220, 120, 33);
+        supprimer_produit.setBounds(280, 190, 120, 40);
 
         ajouter_produit.setBackground(new java.awt.Color(0, 169, 54));
         ajouter_produit.setForeground(new java.awt.Color(255, 255, 255));
@@ -272,7 +285,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             }
         });
         jPanel5.add(ajouter_produit);
-        ajouter_produit.setBounds(10, 220, 110, 33);
+        ajouter_produit.setBounds(10, 190, 110, 40);
 
         modifier_produit.setBackground(new java.awt.Color(0, 169, 54));
         modifier_produit.setForeground(new java.awt.Color(255, 255, 255));
@@ -291,12 +304,12 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             }
         });
         jPanel5.add(modifier_produit);
-        modifier_produit.setBounds(140, 220, 120, 33);
+        modifier_produit.setBounds(140, 190, 120, 40);
 
         produit_choisi.setBackground(new java.awt.Color(235, 235, 235));
         produit_choisi.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
         jPanel5.add(produit_choisi);
-        produit_choisi.setBounds(120, 80, 260, 40);
+        produit_choisi.setBounds(120, 60, 260, 40);
 
         message_qte_error.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jPanel5.add(message_qte_error);
@@ -320,7 +333,62 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             }
         });
         jPanel5.add(ajouter_new_produit);
-        ajouter_new_produit.setBounds(390, 80, 40, 40);
+        ajouter_new_produit.setBounds(390, 60, 40, 40);
+
+        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel16.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel16.setText("Ajout des produits");
+        jPanel5.add(jLabel16);
+        jLabel16.setBounds(20, 10, 200, 25);
+
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.setLayout(null);
+
+        utiliser_point.setBackground(new java.awt.Color(0, 169, 54));
+        utiliser_point.setForeground(new java.awt.Color(255, 255, 255));
+        utiliser_point.setText("Utiliser point");
+        utiliser_point.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        utiliser_point.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        utiliser_point.setRadius(40);
+        utiliser_point.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                utiliser_pointMouseClicked(evt);
+            }
+        });
+        utiliser_point.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                utiliser_pointActionPerformed(evt);
+            }
+        });
+        jPanel8.add(utiliser_point);
+        utiliser_point.setBounds(240, 50, 170, 40);
+
+        jLabel24.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel24.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel24.setText("Point du client");
+        jPanel8.add(jLabel24);
+        jLabel24.setBounds(10, 10, 140, 25);
+
+        voir_point.setBackground(new java.awt.Color(0, 169, 54));
+        voir_point.setForeground(new java.awt.Color(255, 255, 255));
+        voir_point.setText("Voir point");
+        voir_point.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        voir_point.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        voir_point.setRadius(40);
+        voir_point.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                voir_pointMouseClicked(evt);
+            }
+        });
+        voir_point.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voir_pointActionPerformed(evt);
+            }
+        });
+        jPanel8.add(voir_point);
+        voir_point.setBounds(10, 50, 170, 40);
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(null);
@@ -330,7 +398,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         jLabel23.setForeground(new java.awt.Color(51, 51, 51));
         jLabel23.setText("Validation Vente");
         jPanel7.add(jLabel23);
-        jLabel23.setBounds(100, 10, 140, 25);
+        jLabel23.setBounds(10, 20, 140, 25);
 
         valider_vente.setBackground(new java.awt.Color(0, 169, 54));
         valider_vente.setForeground(new java.awt.Color(255, 255, 255));
@@ -368,28 +436,30 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             }
         });
         jPanel7.add(imprimer_facture);
-        imprimer_facture.setBounds(190, 70, 200, 40);
+        imprimer_facture.setBounds(210, 70, 200, 40);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(9, 9, 9))
         );
 
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 690));
@@ -448,7 +518,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         jLabel21.setForeground(new java.awt.Color(51, 51, 51));
         jLabel21.setText("Reduction");
         jPanel4.add(jLabel21);
-        jLabel21.setBounds(280, 590, 80, 20);
+        jLabel21.setBounds(400, 590, 80, 20);
 
         jLabel22.setBackground(new java.awt.Color(255, 255, 255));
         jLabel22.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
@@ -460,17 +530,29 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         reduction.setBackground(new java.awt.Color(217, 217, 217));
         reduction.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
         jPanel4.add(reduction);
-        reduction.setBounds(280, 620, 210, 40);
+        reduction.setBounds(400, 620, 130, 40);
 
         montant_total.setBackground(new java.awt.Color(217, 217, 217));
         montant_total.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
         jPanel4.add(montant_total);
-        montant_total.setBounds(20, 620, 210, 40);
+        montant_total.setBounds(20, 620, 180, 40);
 
         net_a_payer.setBackground(new java.awt.Color(217, 217, 217));
         net_a_payer.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
         jPanel4.add(net_a_payer);
         net_a_payer.setBounds(560, 620, 190, 40);
+
+        jLabel25.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel25.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel25.setText("Point actuel");
+        jPanel4.add(jLabel25);
+        jLabel25.setBounds(240, 590, 80, 20);
+
+        affiche_point_client.setBackground(new java.awt.Color(217, 217, 217));
+        affiche_point_client.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        jPanel4.add(affiche_point_client);
+        affiche_point_client.setBounds(230, 620, 150, 40);
 
         add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 0, 770, 690));
     }// </editor-fold>//GEN-END:initComponents
@@ -536,18 +618,14 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                     double prix_vente = rs.getDouble("prix_vente");
                     double montant = prix_vente*qte;
                     model.addRow(new Object[]{produit_ajoutes.getRowCount()+1, designation_prod,qte,prix_vente,montant});
-
-                    
-                    //Somme des montants
-                    //List<Double> numdata = new ArrayList<>();
-                    //list.add(montant);
-                    
+            
                     for (int count = 0; count < model.getRowCount(); count++){
                           list.add((Double) model.getValueAt(count, 4));
                     }
                     double somme = list.stream().mapToDouble(Double::doubleValue).sum();
                     String somme_convertie = ""+somme;
                     montant_total.setText(somme_convertie);
+                    net_a_payer.setText(somme_convertie);
                     //Réinitialisation du champ
                     quantite_prod.setText("");
 
@@ -628,7 +706,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                     prepstmt.execute();                                   
                 }
                 // Variables pour l'enregistrement de la vente
-                montant_total_net = new Double(montant_total.getText());//a revoir
+                montant_total_net = new Double(net_a_payer.getText());//a revoir
                 String date_vente = new SimpleDateFormat().format(new Date());
                 String nom_prenom_client = liste_client.getSelectedItem().toString();
                 int ref_client_int = 0;
@@ -649,15 +727,21 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 st.executeUpdate("INSERT INTO vente(ref_vente,ref_client,date_vente,montant_net) values('"+ref_vente+"','"+ref_client_int+"','"+date_vente+"','"+montant_total_net+"')");
                 
                 //Mise à jour du point du client
-                //Calcul du point du client
-                double point_calcule = montant_total_net*0.0005 +point_cli; 
-                st.executeUpdate("UPDATE client SET point_client= "+point_calcule+" where ref_client ="+ref_client_int+"");                
+                //Calcul du point du client si le client ne l'a pas encore utilisé
+                if (point_utilise == false){
+                    double point_calcule = montant_total_net*poucentage +point_cli; 
+                    st.executeUpdate("UPDATE client SET point_client= "+point_calcule+" where ref_client ="+ref_client_int+"");                
+                }
                 co.close();                           
                 //Notification
                 JOptionPane.showMessageDialog(this, "Vente enregistrée...");
                 model.setRowCount(0); 
+                montant_total.setText(""+0.0);
+                net_a_payer.setText(""+0.0);
+                reduction.setText(""+0.0);
+                affiche_point_client.setText(""+0.0);
                 
-                ref_vente_auto.setText(reference_auto);
+                //ref_vente_auto.setText(reference_auto);
 
              } catch (Exception e) {
                 System.out.println("Probleme");
@@ -670,7 +754,172 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
     }//GEN-LAST:event_valider_venteActionPerformed
 
     private void imprimer_factureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imprimer_factureMouseClicked
-        // TODO add your handling code here:
+        //Recupération des informations de la facture à imprimer
+        try {
+                //connexion à la base de données
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=utf-8","root","");
+                st = co.createStatement();
+                String v_ref_vente = "";
+                String v_date_vente = "";
+                double v_montant_net = 0.0;
+                int v_ref_client = 0;
+                String v_nom_prenom_client = "";
+                String v_telephone_client = "";
+                String v_ref_produit = "";
+                int v_qte = 0;
+
+                //Recuperer la dernière facture enregistrée
+                rs = st.executeQuery("SELECT ref_vente,date_vente,montant_net,ref_client FROM vente WHERE ref_vente = (SELECT ref_vente FROM vente ORDER BY id_vente DESC LIMIT 1)");
+                while(rs.next())
+                {
+                    v_ref_vente = rs.getString("ref_vente");
+                    v_date_vente = rs.getString("date_vente");
+                    v_ref_client = rs.getInt("ref_client");
+                    v_montant_net = rs.getDouble("montant_net"); 
+                }
+                
+                
+                //Recupération du nom du client et de son numero
+                rs = st.executeQuery("SELECT nom_prenoms_client,telephone_client FROM client WHERE ref_client = '"+v_ref_client+"' ");
+                while(rs.next())
+                {
+                    v_nom_prenom_client = rs.getString("nom_prenoms_client");
+                    v_telephone_client = rs.getString("telephone_client"); 
+                }
+                
+                //Génération de la facture d'achat
+                String filePath = "../../facture_vente"+v_ref_vente+".pdf";
+                File file = new File(filePath);
+                String path = file.getPath();
+                PdfWriter pdfW = null;
+                try {
+                    pdfW = new PdfWriter(path);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Nouvelle_Vente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                PdfDocument pdfDoc = new PdfDocument(pdfW);
+                Document doc = new Document(pdfDoc);
+                pdfDoc.setDefaultPageSize(PageSize.A4);
+
+                float col = 280f;
+                float columnWidth[] = {col,col};
+
+                Table tableee = new Table(columnWidth);
+                tableee.setBackgroundColor(new DeviceRgb(0,169,54)).setFontColor(new DeviceRgb(255,255,255));
+                tableee.addCell(new Cell().add(new Paragraph("Facture d'achat"))
+                .setTextAlignment(TextAlignment.CENTER)
+                        .setVerticalAlignment(VerticalAlignment.MIDDLE)
+                        .setMarginTop(30f)
+                        .setMarginBottom(30f)
+                        .setFontSize(30f)
+                        .setBorder(Border.NO_BORDER));       
+                tableee.addCell(new Cell().add(new Paragraph("Bio Market \n Colobane - Dakar, Rue 345 \n sales@biomarket.com \n +221 786070960 "))
+                        .setTextAlignment(TextAlignment.RIGHT)
+                        .setMarginTop(30f)
+                        .setMarginBottom(30f)
+                        .setMarginRight(10f)
+                        .setBorder(Border.NO_BORDER));
+
+                float colwidth[] = {80,300,90,90};
+                Table customerInfoTable = new Table(colwidth);
+                //customerInfoTable.addCell(new Cell(0, 4));
+                customerInfoTable.addCell(new Cell(0, 4).add(new Paragraph("Informations du client")).setBold().setBorder(Border.NO_BORDER));
+                customerInfoTable.addCell(new Cell().add(new Paragraph("Client")).setBorder(Border.NO_BORDER));
+                customerInfoTable.addCell(new Cell().add(new Paragraph(v_nom_prenom_client)).setBorder(Border.NO_BORDER));
+                customerInfoTable.addCell(new Cell().add(new Paragraph("Facture n°")).setBorder(Border.NO_BORDER));
+                customerInfoTable.addCell(new Cell().add(new Paragraph(v_ref_vente)).setBorder(Border.NO_BORDER));
+
+                customerInfoTable.addCell(new Cell().add(new Paragraph("Numéro")).setBorder(Border.NO_BORDER));
+                customerInfoTable.addCell(new Cell().add(new Paragraph(v_telephone_client)).setBorder(Border.NO_BORDER));
+                customerInfoTable.addCell(new Cell().add(new Paragraph("Date")).setBorder(Border.NO_BORDER));
+                customerInfoTable.addCell(new Cell().add(new Paragraph(v_date_vente)).setBorder(Border.NO_BORDER));
+
+                float itemInfoColWidth[] = {40,226,50,132,132};
+                Table itemInfoTable = new Table(itemInfoColWidth);
+                itemInfoTable.addCell(new Cell().add(new Paragraph("N°"))
+                    .setBackgroundColor(new DeviceRgb(0,169,54)).setFontColor(new DeviceRgb(255,255,255)));
+                itemInfoTable.addCell(new Cell().add(new Paragraph("Désignation"))
+                        .setBackgroundColor(new DeviceRgb(0,169,54)).setFontColor(new DeviceRgb(255,255,255)));
+                itemInfoTable.addCell(new Cell().add(new Paragraph("Quantité"))
+                        .setBackgroundColor(new DeviceRgb(0,169,54)).setFontColor(new DeviceRgb(255,255,255)));
+                itemInfoTable.addCell(new Cell().add(new Paragraph("Prix Unitaire"))
+                        .setBackgroundColor(new DeviceRgb(0,169,54))
+                        .setFontColor(new DeviceRgb(255,255,255))
+                        .setTextAlignment(TextAlignment.RIGHT));
+                itemInfoTable.addCell(new Cell().add(new Paragraph("Montant"))
+                        .setBackgroundColor(new DeviceRgb(0,169,54))
+                        .setFontColor(new DeviceRgb(255,255,255))
+                        .setTextAlignment(TextAlignment.RIGHT));
+
+                rs = st.executeQuery("SELECT ref_prod,qte FROM produits_vendus WHERE ref_vente = '"+v_ref_vente+"' ");
+                int counter =1;
+                double prix_produit_ajoute = 0.0;
+                while(rs.next())
+                {
+                    v_ref_produit = rs.getString("ref_prod");
+                    v_qte= rs.getInt("qte"); 
+               
+                    itemInfoTable.addCell(new Cell().add(new Paragraph(""+counter)));
+                    itemInfoTable.addCell(new Cell().add(new Paragraph(v_ref_produit)));
+                    
+                    itemInfoTable.addCell(new Cell().add(new Paragraph(""+v_qte))
+                            .setTextAlignment(TextAlignment.RIGHT));
+                        //Recupération du prix du produit
+                        st1 = co.createStatement();
+                        rs1 = st1.executeQuery("SELECT prix_vente FROM produit WHERE lib_produit = '"+v_ref_produit+"' ");
+                        if(rs1.next())
+                        {
+                           prix_produit_ajoute = rs1.getDouble("prix_vente");
+                        }
+
+                    itemInfoTable.addCell(new Cell().add(new Paragraph(""+prix_produit_ajoute))
+                            .setTextAlignment(TextAlignment.RIGHT));
+                    double montant_produit = prix_produit_ajoute*v_qte;
+                    itemInfoTable.addCell(new Cell().add(new Paragraph(""+montant_produit))
+                            .setTextAlignment(TextAlignment.RIGHT));
+                    counter ++;
+
+                }
+/*
+                itemInfoTable.addCell(new Cell(0,4).add(new Paragraph("Réduction"))
+                             .setTextAlignment(TextAlignment.CENTER)
+                             .setBold());
+                itemInfoTable.addCell(new Cell().add(new Paragraph("11750"))
+                        .setTextAlignment(TextAlignment.RIGHT));        
+
+                itemInfoTable.addCell(new Cell(0,4).add(new Paragraph("Montant total"))
+                            .setTextAlignment(TextAlignment.CENTER)
+                            .setBold());
+                itemInfoTable.addCell(new Cell().add(new Paragraph("0"))
+                        .setTextAlignment(TextAlignment.RIGHT));        */
+
+                itemInfoTable.addCell(new Cell(0,4).add(new Paragraph("Montant net à payer"))
+                        .setBackgroundColor(new DeviceRgb(0,169,54)).setFontColor(new DeviceRgb(255,255,255))
+                         .setBorder(Border.NO_BORDER)
+                          .setBold()
+                          .setTextAlignment(TextAlignment.CENTER));
+                itemInfoTable.addCell(new Cell().add(new Paragraph(""+v_montant_net))
+                        .setBackgroundColor(new DeviceRgb(0,169,54)).setFontColor(new DeviceRgb(255,255,255))
+                        .setBorder(Border.NO_BORDER)
+                        .setTextAlignment(TextAlignment.RIGHT));
+
+                doc.add(tableee);
+                doc.add(new Paragraph("\n"));
+                doc.add(customerInfoTable);
+
+                doc.add(new Paragraph("\n"));
+                doc.add(itemInfoTable);
+
+                doc.add(new Paragraph("\n Le service commercial").setTextAlignment(TextAlignment.RIGHT));
+
+                doc.close();
+                System.out.println("Facture émise");
+     
+            } catch (Exception e) 
+        {
+        System.out.println("Probleme");
+        } 
     }//GEN-LAST:event_imprimer_factureMouseClicked
 
     private void imprimer_factureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimer_factureActionPerformed
@@ -693,27 +942,110 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_ajouter_clientActionPerformed
 
+    private void utiliser_pointMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_utiliser_pointMouseClicked
+        //Calcule du nouveau point du client
+        Double montant_total_actuel = new Double(montant_total.getText());
+        //Point actuel
+        double pt_actuel = montant_total_actuel*poucentage;
+        //Recupération de l'ancien point du client
+        try {
+                //connexion à la base de données
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=utf-8","root","");
+                st = co.createStatement();
+                String nom_prenom_client = liste_client.getSelectedItem().toString();
+                int ref_client_int = 0;
+                double point_cli = 0;
+                
+                rs = st.executeQuery("SELECT point_client,ref_client FROM client WHERE nom_prenoms_client = '"+nom_prenom_client+"'");
+                if(rs.next())
+                {
+                    point_cli = (double)rs.getObject(1);
+                    ref_client_int = (int) rs.getObject(2);
+                }
+                
+                //Le nouveau point à appliquer au montant total
+                double point_a_appliquer = point_cli+pt_actuel;
+
+                //On applique le point sur le montant total
+                double reduction_accorde = (point_a_appliquer*montant_total_actuel)/100;
+                reduction.setText(""+reduction_accorde);
+                
+                //Montant net a payer
+                double montant_net_a_payer = montant_total_actuel - reduction_accorde;
+                net_a_payer.setText(""+montant_net_a_payer);
+                
+                double point_reinitialise =0.0;
+                //Réinitialiser le point du client
+                st.executeUpdate("UPDATE client SET point_client= "+point_reinitialise+" where ref_client ="+ref_client_int+"");                
+                point_utilise = true;
+                co.close();          
+            } catch (Exception e) {
+           //message_error_cat.setText("Problème de connexion !!");
+        } 
+        
+        
+    }//GEN-LAST:event_utiliser_pointMouseClicked
+
+    private void utiliser_pointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_utiliser_pointActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_utiliser_pointActionPerformed
+
+    private void voir_pointMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voir_pointMouseClicked
+        try {
+                //connexion à la base de données
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                co = DriverManager.getConnection("jdbc:mysql://localhost/biomarket?characterEncoding=utf-8","root","");
+                st = co.createStatement();
+                String nom_prenom_client = liste_client.getSelectedItem().toString();
+                int ref_client_int = 0;
+                double point_cli = 0;
+
+                //st.executeUpdate("INSERT INTO produit_vendu(ref_vente,ref_prod,qte_prod) values('"+ref_vente+"','"+designation_prod+"','"+qte_ajoute+"')");
+                
+                //Recupération du point du client et de sa ref
+                rs = st.executeQuery("SELECT point_client FROM client WHERE nom_prenoms_client = '"+nom_prenom_client+"'");
+                if(rs.next())
+                {
+                    point_cli = (double)rs.getObject(1);
+                    affiche_point_client.setText(""+point_cli);
+                }
+
+                
+                } catch (Exception e) {
+           //message_error_cat.setText("Problème de connexion !!");
+        } 
+    }//GEN-LAST:event_voir_pointMouseClicked
+
+    private void voir_pointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voir_pointActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_voir_pointActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel affiche_point_client;
     private produitbio.Button_perso ajouter_client;
     private produitbio.Button_perso ajouter_new_produit;
     private produitbio.Button_perso ajouter_produit;
     private produitbio.Button_perso imprimer_facture;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox liste_client;
     private javax.swing.JLabel message_qte_error;
@@ -726,14 +1058,20 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
     private javax.swing.JLabel reduction;
     private javax.swing.JTextField ref_vente_auto;
     private produitbio.Button_perso supprimer_produit;
+    private produitbio.Button_perso utiliser_point;
     private produitbio.Button_perso valider_vente;
+    private produitbio.Button_perso voir_point;
     // End of variables declaration//GEN-END:variables
     DefaultTableModel dtm = new DefaultTableModel();
     String reference_auto ="";    
     ResultSet rs = null;
     Statement st = null;
+    ResultSet rs1 = null;
+    Statement st1 = null;
     PreparedStatement prepstmt= null;
     PreparedStatement prepstmt1= null;
-
+    //Pourcentage des points
+    static double poucentage = 0.0002; //1 pt par un achat de 5000
+    static boolean point_utilise = false;
     Connection co = null;
 }

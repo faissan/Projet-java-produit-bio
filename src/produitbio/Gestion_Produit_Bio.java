@@ -39,9 +39,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         String userLogin =user.getUserLogin();
         
         //Horloge de la fenetre principale
-        horloge.setText(
-           DateFormat.getDateTimeInstance().format(new Date())
-         );
+        horloge.setText(DateFormat.getDateTimeInstance().format(new Date()));
         //add(horloge);
         Timer t = new Timer(500, new ActionListener() {
             @Override

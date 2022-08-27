@@ -243,7 +243,7 @@ public class Nouveau_Client extends javax.swing.JFrame {
         String nom_prenom_saisi = nom_prenom_client.getText();
         String email_saisi = email_client.getText();
         String telephone_saisi = telephone_client.getText();
-        int point_client = 0;
+        double point_client = 0.0;
         
 
         if (nom_prenom_client.equals("")||email_client.equals("")||telephone_client.equals("")){
