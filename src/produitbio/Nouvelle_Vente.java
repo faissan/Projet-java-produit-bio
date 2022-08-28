@@ -48,8 +48,14 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         //System.out.println(annee_courante_deux_bit);   
         Font myFont2 = new Font("Yu Gothic UI Semilight", Font.BOLD, 16);
         produit_ajoutes.getTableHeader().setFont(myFont2);
-        montant_total.setText("0.0");
         
+        //Initialisation des champs
+        montant_total.setText("0.0");
+        reduction.setText("0.0");
+        affiche_point_client.setText("0.0");
+        net_a_payer.setText("0.0");
+        
+        //Chargement de l'utilisateur connecté à l'application
         Singleton user = Singleton.getInstance();
         String userLogin =user.getUserLogin();
         
@@ -685,7 +691,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         {
             String ref_vente = ref_vente_auto.getText();
             String designation_prod= "";
-            Double qte_ajoute,montant_total_net;
+            Double qte_ajoute,montant_total_net,montant_total_brut,montant_reduction;
             try {
                 //connexion à la base de données
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -706,7 +712,10 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                     prepstmt.execute();                                   
                 }
                 // Variables pour l'enregistrement de la vente
-                montant_total_net = new Double(net_a_payer.getText());//a revoir
+                montant_total_net = new Double(net_a_payer.getText());
+                montant_total_brut = new Double(montant_total.getText());
+                montant_reduction = new Double(reduction.getText());
+                
                 String date_vente = new SimpleDateFormat().format(new Date());
                 String nom_prenom_client = liste_client.getSelectedItem().toString();
                 int ref_client_int = 0;
@@ -724,7 +733,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 }
 
                 //Enregistrement de la vente proprement dite
-                st.executeUpdate("INSERT INTO vente(ref_vente,ref_client,date_vente,montant_net) values('"+ref_vente+"','"+ref_client_int+"','"+date_vente+"','"+montant_total_net+"')");
+                st.executeUpdate("INSERT INTO vente(ref_vente,ref_client,date_vente,montant_total,reduction,montant_net) values('"+ref_vente+"','"+ref_client_int+"','"+date_vente+"','"+montant_total_brut+"','"+montant_reduction+"','"+montant_total_net+"')");
                 
                 //Mise à jour du point du client
                 //Calcul du point du client si le client ne l'a pas encore utilisé
@@ -768,15 +777,19 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 String v_telephone_client = "";
                 String v_ref_produit = "";
                 int v_qte = 0;
+                double v_montant_total = 0.0;
+                double v_reduction = 0.0;
 
                 //Recuperer la dernière facture enregistrée
-                rs = st.executeQuery("SELECT ref_vente,date_vente,montant_net,ref_client FROM vente WHERE ref_vente = (SELECT ref_vente FROM vente ORDER BY id_vente DESC LIMIT 1)");
+                rs = st.executeQuery("SELECT ref_vente,date_vente,montant_net,ref_client,montant_total,reduction FROM vente WHERE ref_vente = (SELECT ref_vente FROM vente ORDER BY id_vente DESC LIMIT 1)");
                 while(rs.next())
                 {
                     v_ref_vente = rs.getString("ref_vente");
                     v_date_vente = rs.getString("date_vente");
                     v_ref_client = rs.getInt("ref_client");
-                    v_montant_net = rs.getDouble("montant_net"); 
+                    v_montant_net = rs.getDouble("montant_net");
+                    v_montant_total = rs.getDouble("montant_total");
+                    v_reduction = rs.getDouble("reduction");
                 }
                 
                 
@@ -789,7 +802,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 }
                 
                 //Génération de la facture d'achat
-                String filePath = "../../facture_vente"+v_ref_vente+".pdf";
+                String filePath = "./factures/FACTURE-"+v_ref_vente+".pdf";
                 File file = new File(filePath);
                 String path = file.getPath();
                 PdfWriter pdfW = null;
@@ -881,18 +894,18 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                     counter ++;
 
                 }
-/*
+
                 itemInfoTable.addCell(new Cell(0,4).add(new Paragraph("Réduction"))
                              .setTextAlignment(TextAlignment.CENTER)
                              .setBold());
-                itemInfoTable.addCell(new Cell().add(new Paragraph("11750"))
+                itemInfoTable.addCell(new Cell().add(new Paragraph(""+v_reduction))
                         .setTextAlignment(TextAlignment.RIGHT));        
 
                 itemInfoTable.addCell(new Cell(0,4).add(new Paragraph("Montant total"))
                             .setTextAlignment(TextAlignment.CENTER)
                             .setBold());
-                itemInfoTable.addCell(new Cell().add(new Paragraph("0"))
-                        .setTextAlignment(TextAlignment.RIGHT));        */
+                itemInfoTable.addCell(new Cell().add(new Paragraph(""+v_montant_total))
+                        .setTextAlignment(TextAlignment.RIGHT));      
 
                 itemInfoTable.addCell(new Cell(0,4).add(new Paragraph("Montant net à payer"))
                         .setBackgroundColor(new DeviceRgb(0,169,54)).setFontColor(new DeviceRgb(255,255,255))
