@@ -133,11 +133,11 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         quantite_prod = new javax.swing.JTextField();
         supprimer_produit = new produitbio.Button_perso();
         ajouter_produit = new produitbio.Button_perso();
-        modifier_produit = new produitbio.Button_perso();
         produit_choisi = new javax.swing.JComboBox();
         message_qte_error = new javax.swing.JLabel();
         ajouter_new_produit = new produitbio.Button_perso();
         jLabel16 = new javax.swing.JLabel();
+        affiche_qte_stock = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         utiliser_point = new produitbio.Button_perso();
         jLabel24 = new javax.swing.JLabel();
@@ -182,11 +182,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         ref_vente_auto.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         ref_vente_auto.setEnabled(false);
         ref_vente_auto.setName(""); // NOI18N
-        ref_vente_auto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ref_vente_autoActionPerformed(evt);
-            }
-        });
         jPanel6.add(ref_vente_auto);
         ref_vente_auto.setBounds(111, 70, 260, 40);
 
@@ -212,11 +207,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         ajouter_client.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ajouter_clientMouseClicked(evt);
-            }
-        });
-        ajouter_client.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ajouter_clientActionPerformed(evt);
             }
         });
         jPanel6.add(ajouter_client);
@@ -271,13 +261,8 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 supprimer_produitMouseClicked(evt);
             }
         });
-        supprimer_produit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                supprimer_produitActionPerformed(evt);
-            }
-        });
         jPanel5.add(supprimer_produit);
-        supprimer_produit.setBounds(280, 190, 120, 40);
+        supprimer_produit.setBounds(240, 200, 160, 40);
 
         ajouter_produit.setBackground(new java.awt.Color(0, 169, 54));
         ajouter_produit.setForeground(new java.awt.Color(255, 255, 255));
@@ -291,26 +276,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             }
         });
         jPanel5.add(ajouter_produit);
-        ajouter_produit.setBounds(10, 190, 110, 40);
-
-        modifier_produit.setBackground(new java.awt.Color(0, 169, 54));
-        modifier_produit.setForeground(new java.awt.Color(255, 255, 255));
-        modifier_produit.setText("Modifier");
-        modifier_produit.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        modifier_produit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        modifier_produit.setRadius(40);
-        modifier_produit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                modifier_produitMouseClicked(evt);
-            }
-        });
-        modifier_produit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifier_produitActionPerformed(evt);
-            }
-        });
-        jPanel5.add(modifier_produit);
-        modifier_produit.setBounds(140, 190, 120, 40);
+        ajouter_produit.setBounds(10, 200, 170, 40);
 
         produit_choisi.setBackground(new java.awt.Color(235, 235, 235));
         produit_choisi.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
@@ -333,11 +299,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 ajouter_new_produitMouseClicked(evt);
             }
         });
-        ajouter_new_produit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ajouter_new_produitActionPerformed(evt);
-            }
-        });
         jPanel5.add(ajouter_new_produit);
         ajouter_new_produit.setBounds(390, 60, 40, 40);
 
@@ -347,6 +308,11 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         jLabel16.setText("Ajout des produits");
         jPanel5.add(jLabel16);
         jLabel16.setBounds(20, 10, 200, 25);
+
+        affiche_qte_stock.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 14)); // NOI18N
+        affiche_qte_stock.setForeground(new java.awt.Color(204, 0, 0));
+        jPanel5.add(affiche_qte_stock);
+        affiche_qte_stock.setBounds(120, 170, 260, 20);
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setLayout(null);
@@ -360,11 +326,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         utiliser_point.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 utiliser_pointMouseClicked(evt);
-            }
-        });
-        utiliser_point.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                utiliser_pointActionPerformed(evt);
             }
         });
         jPanel8.add(utiliser_point);
@@ -386,11 +347,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         voir_point.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 voir_pointMouseClicked(evt);
-            }
-        });
-        voir_point.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                voir_pointActionPerformed(evt);
             }
         });
         jPanel8.add(voir_point);
@@ -417,11 +373,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 valider_venteMouseClicked(evt);
             }
         });
-        valider_vente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                valider_venteActionPerformed(evt);
-            }
-        });
         jPanel7.add(valider_vente);
         valider_vente.setBounds(10, 70, 170, 40);
 
@@ -434,11 +385,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         imprimer_facture.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 imprimer_factureMouseClicked(evt);
-            }
-        });
-        imprimer_facture.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                imprimer_factureActionPerformed(evt);
             }
         });
         jPanel7.add(imprimer_facture);
@@ -460,12 +406,11 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9))
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 690));
@@ -574,7 +519,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             int rowindex = produit_ajoutes.getSelectedRow();
 
             System.out.println("Index: "+rowindex);
-            String montant_total_string =  reduction.getText();
+            String montant_total_string =  montant_total.getText();
             Double montant_total_double = new Double(montant_total_string);
             
             System.out.println("Montant actuel double: "+montant_total_double);
@@ -583,14 +528,11 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
             
             double nouveau_montant = montant_total_double - montant_a_supprimer;
             System.out.println(nouveau_montant);                                         
-            reduction.setText(""+nouveau_montant);            
+            montant_total.setText(""+nouveau_montant);
+            net_a_payer.setText(""+nouveau_montant);
             model.removeRow(rowindex);
         }
     }//GEN-LAST:event_supprimer_produitMouseClicked
-
-    private void supprimer_produitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supprimer_produitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_supprimer_produitActionPerformed
 
     private void ajouter_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouter_produitMouseClicked
         dtm.addColumn("N°");
@@ -618,68 +560,46 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 st = co.createStatement();
 
                 //Traitement automatique de la référence de la facture
-                rs = st.executeQuery("SELECT prix_vente FROM produit WHERE lib_produit = '"+designation_prod+"'");
+                rs = st.executeQuery("SELECT prix_vente,quantite FROM produit WHERE lib_produit = '"+designation_prod+"'");
                 while(rs.next())
                 {
                     double prix_vente = rs.getDouble("prix_vente");
-                    double montant = prix_vente*qte;
-                    model.addRow(new Object[]{produit_ajoutes.getRowCount()+1, designation_prod,qte,prix_vente,montant});
-            
-                    for (int count = 0; count < model.getRowCount(); count++){
-                          list.add((Double) model.getValueAt(count, 4));
-                    }
-                    double somme = list.stream().mapToDouble(Double::doubleValue).sum();
-                    String somme_convertie = ""+somme;
-                    montant_total.setText(somme_convertie);
-                    net_a_payer.setText(somme_convertie);
-                    //Réinitialisation du champ
-                    quantite_prod.setText("");
+                    double quantite_stock = rs.getDouble("quantite");
 
+                    double montant = prix_vente*qte;
+                    //Verifier si la quantité demandée est disponible
+                    if (qte <= quantite_stock)
+                    {
+                        affiche_qte_stock.setText("");//Vider le champ si il y avait précedemment d'erreur
+                        model.addRow(new Object[]{produit_ajoutes.getRowCount()+1, designation_prod,qte,prix_vente,montant});
+            
+                        for (int count = 0; count < model.getRowCount(); count++){
+                              list.add((Double) model.getValueAt(count, 4));
+                        }
+                        double somme = list.stream().mapToDouble(Double::doubleValue).sum();
+                        String somme_convertie = ""+somme;
+                        montant_total.setText(somme_convertie);
+                        net_a_payer.setText(somme_convertie);
+                        //Réinitialisation du champ
+                        quantite_prod.setText("");
+                    }
+                    else
+                    {
+                        //Si la quantité demandée est superieure au restante, afficher la quantité restante
+                        affiche_qte_stock.setText("Stock restant: "+quantite_stock);
+                    }                    
                 }
                 } catch (Exception e) 
                 {
                     message_qte_error.setText("Problème de connexion !!");
-                }
-         
+                }         
         } catch (Exception e) 
         {
             //Message d'erreur si l'utilisateur entre une texte au lieu d'un nombre
             message_qte_error.setForeground(Color.red);
-            message_qte_error.setText("Entrer une valeur numérique");
+            affiche_qte_stock.setText("Entrer une valeur numérique");
         }
-        
-
     }//GEN-LAST:event_ajouter_produitMouseClicked
-
-    private void modifier_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifier_produitMouseClicked
-        
-        
-        DefaultTableModel dt = (DefaultTableModel)produit_ajoutes.getModel();
-        int index = produit_ajoutes.getSelectedRow();
-        
-        String design_produit = (String) produit_ajoutes.getValueAt(index,1);
-        produit_choisi.setSelectedItem(design_produit);
-        
-        String qte_produit_string = (String) produit_ajoutes.getValueAt(index,2);
-        
-
-/*
-        String designation_prod = (String) produit_choisi.getSelectedItem();
-        Double qte  = new Double(quantite_prod.getText());       
-        
-        dt.setValueAt(designation_prod, index, 1);
-        dt.setValueAt(qte, index, 2);
-
-        quantite_prod.setText("");*/
-    }//GEN-LAST:event_modifier_produitMouseClicked
-
-    private void modifier_produitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifier_produitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modifier_produitActionPerformed
-
-    private void ref_vente_autoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ref_vente_autoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ref_vente_autoActionPerformed
 
     private void valider_venteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_valider_venteMouseClicked
         DefaultTableModel model = (DefaultTableModel)produit_ajoutes.getModel();
@@ -691,7 +611,11 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         {
             String ref_vente = ref_vente_auto.getText();
             String designation_prod= "";
+            String ref_prod= "";
             Double qte_ajoute,montant_total_net,montant_total_brut,montant_reduction;
+            double qte_restante;
+            double quantite_stock = 0;
+
             try {
                 //connexion à la base de données
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -703,13 +627,31 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 {
                     designation_prod = produit_ajoutes.getValueAt(i, 1).toString();
                     qte_ajoute = new Double( produit_ajoutes.getValueAt(i, 2).toString());
+                    
                     //Enregistrement des produits
                     String sql_query ="INSERT INTO produits_vendus(ref_vente,ref_prod,qte) values(?,?,?)";                  
                     prepstmt = co.prepareStatement(sql_query);
                     prepstmt.setString(1, ref_vente);
                     prepstmt.setString(2, designation_prod);
                     prepstmt.setDouble(3, qte_ajoute);
-                    prepstmt.execute();                                   
+                    prepstmt.execute();
+                    
+                    //Récupération de la quantité en stock du produit ajouté
+                    rs = st.executeQuery("SELECT quantite,ref_produit FROM produit WHERE lib_produit = '"+designation_prod+"'");
+                    while(rs.next())
+                    {
+                        quantite_stock = rs.getDouble("quantite");
+                        ref_prod = rs.getString("ref_produit");
+                    }
+                    System.out.println("Ref prod: "+ref_prod);
+                    System.out.println("Stock: "+quantite_stock);
+                    System.out.println("Q_ajouté:"+qte_ajoute);
+                    
+                    qte_restante = quantite_stock -qte_ajoute;
+                    System.out.println("Restant :"+qte_restante);
+                    //Mise à jour de la nouvelle quantité en stock du produit ajouté
+                    st.executeUpdate("UPDATE produit SET quantite ="+qte_restante+" where ref_produit ='"+ref_prod+"'");                
+                    System.out.println("Quantité mise à jour ...");        
                 }
                 // Variables pour l'enregistrement de la vente
                 montant_total_net = new Double(net_a_payer.getText());
@@ -757,10 +699,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         }  
         }
     }//GEN-LAST:event_valider_venteMouseClicked
-
-    private void valider_venteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_valider_venteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_valider_venteActionPerformed
 
     private void imprimer_factureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imprimer_factureMouseClicked
         //Recupération des informations de la facture à imprimer
@@ -898,13 +836,13 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 itemInfoTable.addCell(new Cell(0,4).add(new Paragraph("Réduction"))
                              .setTextAlignment(TextAlignment.CENTER)
                              .setBold());
-                itemInfoTable.addCell(new Cell().add(new Paragraph(""+v_reduction))
+                itemInfoTable.addCell(new Cell().add(new Paragraph(String.format("%,.2f", v_reduction)))
                         .setTextAlignment(TextAlignment.RIGHT));        
 
                 itemInfoTable.addCell(new Cell(0,4).add(new Paragraph("Montant total"))
                             .setTextAlignment(TextAlignment.CENTER)
                             .setBold());
-                itemInfoTable.addCell(new Cell().add(new Paragraph(""+v_montant_total))
+                itemInfoTable.addCell(new Cell().add(new Paragraph(String.format("%,.2f", v_montant_total)))
                         .setTextAlignment(TextAlignment.RIGHT));      
 
                 itemInfoTable.addCell(new Cell(0,4).add(new Paragraph("Montant net à payer"))
@@ -912,7 +850,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                          .setBorder(Border.NO_BORDER)
                           .setBold()
                           .setTextAlignment(TextAlignment.CENTER));
-                itemInfoTable.addCell(new Cell().add(new Paragraph(""+v_montant_net))
+                itemInfoTable.addCell(new Cell().add(new Paragraph(String.format("%,.2f", v_montant_net)))
                         .setBackgroundColor(new DeviceRgb(0,169,54)).setFontColor(new DeviceRgb(255,255,255))
                         .setBorder(Border.NO_BORDER)
                         .setTextAlignment(TextAlignment.RIGHT));
@@ -935,25 +873,13 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         } 
     }//GEN-LAST:event_imprimer_factureMouseClicked
 
-    private void imprimer_factureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimer_factureActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_imprimer_factureActionPerformed
-
     private void ajouter_new_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouter_new_produitMouseClicked
         new Nouveau_produit().setVisible(true);
     }//GEN-LAST:event_ajouter_new_produitMouseClicked
 
-    private void ajouter_new_produitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouter_new_produitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ajouter_new_produitActionPerformed
-
     private void ajouter_clientMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouter_clientMouseClicked
         new Nouveau_Client().setVisible(true);
     }//GEN-LAST:event_ajouter_clientMouseClicked
-
-    private void ajouter_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouter_clientActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ajouter_clientActionPerformed
 
     private void utiliser_pointMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_utiliser_pointMouseClicked
         //Calcule du nouveau point du client
@@ -995,14 +921,8 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 co.close();          
             } catch (Exception e) {
            //message_error_cat.setText("Problème de connexion !!");
-        } 
-        
-        
+        }         
     }//GEN-LAST:event_utiliser_pointMouseClicked
-
-    private void utiliser_pointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_utiliser_pointActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_utiliser_pointActionPerformed
 
     private void voir_pointMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voir_pointMouseClicked
         try {
@@ -1022,20 +942,15 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 {
                     point_cli = (double)rs.getObject(1);
                     affiche_point_client.setText(""+point_cli);
-                }
-
-                
+                }                
                 } catch (Exception e) {
            //message_error_cat.setText("Problème de connexion !!");
         } 
     }//GEN-LAST:event_voir_pointMouseClicked
 
-    private void voir_pointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voir_pointActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_voir_pointActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel affiche_point_client;
+    private javax.swing.JLabel affiche_qte_stock;
     private produitbio.Button_perso ajouter_client;
     private produitbio.Button_perso ajouter_new_produit;
     private produitbio.Button_perso ajouter_produit;
@@ -1062,7 +977,6 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox liste_client;
     private javax.swing.JLabel message_qte_error;
-    private produitbio.Button_perso modifier_produit;
     private javax.swing.JLabel montant_total;
     private javax.swing.JLabel net_a_payer;
     private javax.swing.JTable produit_ajoutes;

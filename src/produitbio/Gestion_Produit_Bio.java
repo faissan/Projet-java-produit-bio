@@ -344,11 +344,12 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         parametre.setBackground(new java.awt.Color(204, 204, 204));
         parametre.setForeground(new java.awt.Color(51, 51, 51));
         parametre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-paramètres-25.png"))); // NOI18N
-        parametre.setBorderColor(new java.awt.Color(102, 102, 102));
+        parametre.setText("Parametres");
+        parametre.setBorderColor(new java.awt.Color(217, 217, 217));
         parametre.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         parametre.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         parametre.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        parametre.setIconTextGap(0);
+        parametre.setIconTextGap(8);
         parametre.setRadius(60);
         parametre.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -378,7 +379,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(19, 19, 19))
             .addGroup(Menu_layoutLayout.createSequentialGroup()
-                .addGap(101, 101, 101)
+                .addGap(61, 61, 61)
                 .addComponent(parametre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
