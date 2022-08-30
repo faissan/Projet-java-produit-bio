@@ -80,7 +80,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
                    {
                        gestion_user.setVisible(false);
                        profil_main_jframe.setText("Gestionnaire");
-
                    }
                    else
                    {
@@ -110,10 +109,8 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_client.setBackground(colorbgold);        
         gestion_ventes.setBackground(colorbgold);       
         gestion_fournisseurs.setBackground(colorbgold);
-        parametre.setBackground(colorbgold);
-        
-        pack();
-         
+        parametre.setBackground(colorbgold);        
+        pack();         
     }
 
     /**
@@ -190,11 +187,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
                 tableau_de_bordMouseClicked(evt);
             }
         });
-        tableau_de_bord.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tableau_de_bordActionPerformed(evt);
-            }
-        });
 
         gestion_fournisseurs.setBackground(new java.awt.Color(204, 204, 204));
         gestion_fournisseurs.setForeground(new java.awt.Color(51, 51, 51));
@@ -209,11 +201,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_fournisseurs.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 gestion_fournisseursMouseClicked(evt);
-            }
-        });
-        gestion_fournisseurs.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gestion_fournisseursActionPerformed(evt);
             }
         });
 
@@ -248,11 +235,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
                 gestion_clientMouseClicked(evt);
             }
         });
-        gestion_client.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gestion_clientActionPerformed(evt);
-            }
-        });
 
         gestion_produit.setBackground(new java.awt.Color(204, 204, 204));
         gestion_produit.setForeground(new java.awt.Color(51, 51, 51));
@@ -269,11 +251,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
                 gestion_produitMouseClicked(evt);
             }
         });
-        gestion_produit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gestion_produitActionPerformed(evt);
-            }
-        });
 
         gestion_user.setBackground(new java.awt.Color(204, 204, 204));
         gestion_user.setForeground(new java.awt.Color(51, 51, 51));
@@ -288,11 +265,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         gestion_user.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 gestion_userMouseClicked(evt);
-            }
-        });
-        gestion_user.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gestion_userActionPerformed(evt);
             }
         });
 
@@ -317,7 +289,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tableau_de_bord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(gestion_ventes, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -329,7 +301,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
                 .addComponent(gestion_fournisseurs, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(gestion_user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {gestion_client, gestion_fournisseurs, gestion_produit, gestion_ventes, tableau_de_bord});
@@ -369,19 +341,21 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         Menu_layout.setLayout(Menu_layoutLayout);
         Menu_layoutLayout.setHorizontalGroup(
             Menu_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Menu_layoutLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(Menu_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(Menu_layoutLayout.createSequentialGroup()
-                        .addComponent(gestion_fournisseurs2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(19, 19, 19))
             .addGroup(Menu_layoutLayout.createSequentialGroup()
                 .addGap(61, 61, 61)
                 .addComponent(parametre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Menu_layoutLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(Menu_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Menu_layoutLayout.createSequentialGroup()
+                        .addComponent(gestion_fournisseurs2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Menu_layoutLayout.createSequentialGroup()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29))))
         );
         Menu_layoutLayout.setVerticalGroup(
             Menu_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -558,26 +532,6 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tableau_de_bordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableau_de_bordActionPerformed
-       
-    }//GEN-LAST:event_tableau_de_bordActionPerformed
-
-    private void gestion_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestion_clientActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_gestion_clientActionPerformed
-
-    private void gestion_produitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestion_produitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_gestion_produitActionPerformed
-
-    private void gestion_fournisseursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestion_fournisseursActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_gestion_fournisseursActionPerformed
-
-    private void gestion_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestion_userActionPerformed
-        
-    }//GEN-LAST:event_gestion_userActionPerformed
-
     private void tableau_de_bordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableau_de_bordMouseClicked
 
         tableau_de_bord.setBackground(colorbgnew);
@@ -704,8 +658,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
         //Enlever toutes les fenetres actives avant d'afficher la fenetres courante
         content_view_layout.removeAll();
         
-        //Code de LIONNEL
-        
+        content_view_layout.add(new Liste_fournisseur());       
         //Reactualiser l'affichage
         pack();        
     }//GEN-LAST:event_gestion_fournisseursMouseClicked

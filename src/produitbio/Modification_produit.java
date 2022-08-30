@@ -24,12 +24,12 @@ import org.jdesktop.swingx.JXDatePicker;
  *
  * @author AISSAN Francois
  */
-public class Nouveau_produit extends javax.swing.JFrame {
+public class Modification_produit extends javax.swing.JFrame {
 
     /**
      * Creates new form login
      */
-    public Nouveau_produit() {
+    public Modification_produit() {
         initComponents();
         Image img = new ImageIcon(this.getClass().getResource("logo_bket.png")).getImage();
         this.setIconImage(img);
@@ -76,7 +76,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         message_error_cat = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        ajouter = new produitbio.Button_perso();
+        modifier = new produitbio.Button_perso();
         annuler = new produitbio.Button_perso();
         jLabel2 = new javax.swing.JLabel();
         libelle = new javax.swing.JTextField();
@@ -97,7 +97,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
         jCheckBox1.setText("jCheckBox1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("NOUVEAU PRODUIT");
+        setTitle("MODIFICATION PRODUIT");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
@@ -116,7 +116,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Yu Gothic Medium", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Ajout d'un produit");
+        jLabel1.setText("Modification d'un produit");
         jPanel1.add(jLabel1);
         jLabel1.setBounds(1, 30, 750, 40);
 
@@ -133,24 +133,19 @@ public class Nouveau_produit extends javax.swing.JFrame {
         jPanel1.add(jLabel5);
         jLabel5.setBounds(40, 100, 62, 20);
 
-        ajouter.setBackground(new java.awt.Color(0, 169, 54));
-        ajouter.setForeground(new java.awt.Color(255, 255, 255));
-        ajouter.setText("Ajouter");
-        ajouter.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
-        ajouter.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        ajouter.setRadius(40);
-        ajouter.addMouseListener(new java.awt.event.MouseAdapter() {
+        modifier.setBackground(new java.awt.Color(0, 169, 54));
+        modifier.setForeground(new java.awt.Color(255, 255, 255));
+        modifier.setText("Modifier");
+        modifier.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
+        modifier.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        modifier.setRadius(40);
+        modifier.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ajouterMouseClicked(evt);
+                modifierMouseClicked(evt);
             }
         });
-        ajouter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ajouterActionPerformed(evt);
-            }
-        });
-        jPanel1.add(ajouter);
-        ajouter.setBounds(170, 420, 170, 40);
+        jPanel1.add(modifier);
+        modifier.setBounds(170, 420, 170, 40);
 
         annuler.setBackground(new java.awt.Color(0, 169, 54));
         annuler.setForeground(new java.awt.Color(255, 255, 255));
@@ -324,11 +319,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_annulerMouseClicked
 
-    private void ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterActionPerformed
-
-    }//GEN-LAST:event_ajouterActionPerformed
-
-    private void ajouterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajouterMouseClicked
+    private void modifierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifierMouseClicked
         //Les variables
         Color colorbgold =new Color(217,217,217);
         
@@ -381,7 +372,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
                         }   
                         
                         //Recuperer le texte saisi
-                        st.executeUpdate("INSERT INTO produit(ref_produit,lib_produit,date_production,date_expiration,quantite,quantite_alerte,prix_vente,categorie_produit)values('"+reference_saisie+"','"+libelle_saisie+"','"+d_production+"','"+d_expiration+"','"+quantite_saisie_converti+"','"+quantite_alerte_saisie_converti+"','"+prix_vente_saisie_converti+"','"+num_int_categorie+"')");
+                        st.executeUpdate("UPDATE produit SET lib_produit='"+libelle_saisie+"',date_production='"+d_production+"',date_expiration='"+d_expiration+"',quantite="+quantite_saisie_converti+",quantite_alerte="+quantite_alerte_saisie_converti+",prix_vente="+prix_vente_saisie_converti+",categorie_produit="+num_int_categorie+" WHERE ref_produit='"+reference_saisie+"'");
                         
                         
                         //vider le champ
@@ -395,7 +386,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
                         
                         //Notification d'ajout
                         message_error_cat.setForeground(colorbgold);
-                        message_error_cat.setText("Produit bien ajouté !!");
+                        message_error_cat.setText("Produit bien modifié !!");
                         
                         //Thread.sleep(2000);
                 } catch (Exception e) {
@@ -409,7 +400,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
             }
         }
 
-    }//GEN-LAST:event_ajouterMouseClicked
+    }//GEN-LAST:event_modifierMouseClicked
 
     public void setCategorie_poduit(JComboBox categorie_poduit) {
         this.categorie_poduit = categorie_poduit;
@@ -476,14 +467,22 @@ public class Nouveau_produit extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Nouveau_produit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modification_produit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Nouveau_produit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modification_produit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Nouveau_produit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modification_produit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Nouveau_produit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modification_produit.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -496,13 +495,12 @@ public class Nouveau_produit extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Nouveau_produit().setVisible(true);
+                new Modification_produit().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private produitbio.Button_perso ajouter;
     private produitbio.Button_perso annuler;
     public javax.swing.JComboBox categorie_poduit;
     public org.jdesktop.swingx.JXDatePicker date_expiration;
@@ -521,6 +519,7 @@ public class Nouveau_produit extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     public javax.swing.JTextField libelle;
     private javax.swing.JLabel message_error_cat;
+    private produitbio.Button_perso modifier;
     public javax.swing.JTextField prix_vente;
     public javax.swing.JTextField quantite;
     public javax.swing.JTextField quantite_alerte;

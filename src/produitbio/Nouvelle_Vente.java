@@ -643,12 +643,12 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                         quantite_stock = rs.getDouble("quantite");
                         ref_prod = rs.getString("ref_produit");
                     }
-                    System.out.println("Ref prod: "+ref_prod);
-                    System.out.println("Stock: "+quantite_stock);
-                    System.out.println("Q_ajouté:"+qte_ajoute);
+                    //System.out.println("Ref prod: "+ref_prod);
+                    //System.out.println("Stock: "+quantite_stock);
+                    //System.out.println("Q_ajouté:"+qte_ajoute);
                     
                     qte_restante = quantite_stock -qte_ajoute;
-                    System.out.println("Restant :"+qte_restante);
+                    //System.out.println("Restant :"+qte_restante);
                     //Mise à jour de la nouvelle quantité en stock du produit ajouté
                     st.executeUpdate("UPDATE produit SET quantite ="+qte_restante+" where ref_produit ='"+ref_prod+"'");                
                     System.out.println("Quantité mise à jour ...");        

@@ -17,6 +17,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -90,6 +91,7 @@ public class Liste_produit extends javax.swing.JPanel {
         ajout_categorie = new produitbio.Button_perso();
         jScrollPane1 = new javax.swing.JScrollPane();
         liste_produit = new javax.swing.JTable();
+        reapprovisionnement = new produitbio.Button_perso();
 
         liste_user_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -173,11 +175,6 @@ public class Liste_produit extends javax.swing.JPanel {
                 modifier_produitMouseClicked(evt);
             }
         });
-        modifier_produit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modifier_produitActionPerformed(evt);
-            }
-        });
 
         ajout_categorie.setBackground(new java.awt.Color(0, 169, 54));
         ajout_categorie.setForeground(new java.awt.Color(51, 51, 51));
@@ -214,6 +211,22 @@ public class Liste_produit extends javax.swing.JPanel {
         liste_produit.setRowMargin(5);
         jScrollPane1.setViewportView(liste_produit);
 
+        reapprovisionnement.setBackground(new java.awt.Color(0, 169, 54));
+        reapprovisionnement.setForeground(new java.awt.Color(51, 51, 51));
+        reapprovisionnement.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produitbio/icons8-dashboard-colours/icons8-plus-25.png"))); // NOI18N
+        reapprovisionnement.setText("Réapprovisionnement");
+        reapprovisionnement.setBorderColor(new java.awt.Color(0, 169, 54));
+        reapprovisionnement.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
+        reapprovisionnement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        reapprovisionnement.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        reapprovisionnement.setIconTextGap(5);
+        reapprovisionnement.setRadius(18);
+        reapprovisionnement.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                reapprovisionnementMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -227,8 +240,10 @@ public class Liste_produit extends javax.swing.JPanel {
                         .addComponent(supprimer_produit, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(modifier_produit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(112, 112, 112)
-                        .addComponent(ajout_categorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40)
+                        .addComponent(ajout_categorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(reapprovisionnement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -245,7 +260,8 @@ public class Liste_produit extends javax.swing.JPanel {
                     .addComponent(supprimer_produit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ajout_produit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(modifier_produit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ajout_categorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ajout_categorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reapprovisionnement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -304,57 +320,32 @@ public class Liste_produit extends javax.swing.JPanel {
     }//GEN-LAST:event_ajout_produitMouseClicked
 
     private void modifier_produitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modifier_produitMouseClicked
-        Nouveau_produit produit_a_modifier = new Nouveau_produit();
-        
-        produit_a_modifier.setVisible(true);
-        /*
-        PreparedStatement ps = null;
-        if(JOptionPane.showConfirmDialog(null, "Voulez-vous modifier?", "Confirme Modif",JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+        TableModel model = (TableModel) liste_produit.getModel();
+       int index =liste_produit.getSelectedRow();
+       Modification_produit jtRowData = new Modification_produit();
+       
+       String ref = model.getValueAt(index,0).toString();
+       String designation = model.getValueAt(index,1).toString();
+       String date_prod = model.getValueAt(index,2).toString();
+       String date_expiration = model.getValueAt(index,3).toString();
+       String quantite = model.getValueAt(index,4).toString();
+       String quantite_alerte_v = model.getValueAt(index,5).toString();
+       String prx_vente = model.getValueAt(index,6).toString();
+       String cat = model.getValueAt(index,7).toString();
 
-        try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            co1 = DriverManager.getConnection("jdbc:mysql://localhost/mpsi?characterEncoding=latin1","root","");
-            ps = co1.prepareStatement("Update etudiant SET matricule =?,nom=?,prenom=? where matricule =?");
-            int i =new Integer(ide.getText());
-            String n = no.getText();
-            String p = pr.getText();
-
-            int i2 =new Integer(oldID.getText());
-            ps.setInt(1, i);
-            ps.setString(2, n);
-            ps.setString(3, p);
-            ps.setInt(4,i2);
-            
-
-            ps.executeUpdate();
-            
-            System.out.println("OK");
-
-            co1.close();
-            ps.close();
-            
-            DefaultTableModel dt = (DefaultTableModel)table.getModel();
-            int index = table.getSelectedRow();
-            dt.setValueAt(i, index, 0);
-            dt.setValueAt(n, index, 1);
-            dt.setValueAt(p, index, 2);
-            
-            ide.setText("");
-            no.setText("");
-            pr.setText("");
-            oldID.setText("");
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Problème de modification");
-        }
-        }
-        
-        */
+       
+       jtRowData.setVisible(true);
+       jtRowData.pack();
+       jtRowData.reference.setText(ref);
+       jtRowData.libelle.setText(designation);
+       jtRowData.date_production.setDate(new Date(date_prod));
+       jtRowData.date_expiration.setDate(new Date(date_expiration));
+       jtRowData.quantite.setText(quantite);
+       jtRowData.quantite_alerte.setText(quantite_alerte_v);
+       jtRowData.prix_vente.setText(prx_vente);
+      //jtRowData.categorie_poduit.setSelectedItem(cat);
+       
     }//GEN-LAST:event_modifier_produitMouseClicked
-
-    private void modifier_produitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifier_produitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modifier_produitActionPerformed
 
     private void ajout_categorieMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ajout_categorieMouseClicked
         new Categorie_Produit().setVisible(true);
@@ -363,6 +354,10 @@ public class Liste_produit extends javax.swing.JPanel {
     private void ajout_categorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajout_categorieActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ajout_categorieActionPerformed
+
+    private void reapprovisionnementMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reapprovisionnementMouseClicked
+        new Nouvelle_livraison().setVisible(true);
+    }//GEN-LAST:event_reapprovisionnementMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -379,6 +374,7 @@ public class Liste_produit extends javax.swing.JPanel {
     private javax.swing.JTable liste_produit;
     private javax.swing.JTable liste_user_table;
     private produitbio.Button_perso modifier_produit;
+    private produitbio.Button_perso reapprovisionnement;
     private produitbio.Button_perso supprimer_produit;
     // End of variables declaration//GEN-END:variables
     Connection co;
