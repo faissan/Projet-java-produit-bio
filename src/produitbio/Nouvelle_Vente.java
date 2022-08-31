@@ -82,7 +82,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 rs = st.executeQuery("SELECT count(id_vente) as dernier_id_v FROM vente");
                 while(rs.next()){
                     int dernier_id_vente = rs.getInt("dernier_id_v");
-                    int id_vente_suivant = dernier_id_vente +1;
+                    id_vente_suivant = dernier_id_vente +1;
                     reference_auto = "BK-000"+id_vente_suivant+"-"+annee_courante_deux_bit;
                     ref_vente_auto.setText(reference_auto);
                     //System.out.println(reference_auto);
@@ -146,6 +146,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         jLabel23 = new javax.swing.JLabel();
         valider_vente = new produitbio.Button_perso();
         imprimer_facture = new produitbio.Button_perso();
+        pb_validation_vente = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -389,6 +390,11 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
         });
         jPanel7.add(imprimer_facture);
         imprimer_facture.setBounds(210, 70, 200, 40);
+
+        pb_validation_vente.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 14)); // NOI18N
+        pb_validation_vente.setForeground(new java.awt.Color(204, 0, 0));
+        jPanel7.add(pb_validation_vente);
+        pb_validation_vente.setBounds(210, 20, 220, 20);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -643,7 +649,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                         quantite_stock = rs.getDouble("quantite");
                         ref_prod = rs.getString("ref_produit");
                     }
-                    //System.out.println("Ref prod: "+ref_prod);
+                    System.out.println("Ref prod: "+ref_prod);
                     //System.out.println("Stock: "+quantite_stock);
                     //System.out.println("Q_ajouté:"+qte_ajoute);
                     
@@ -669,7 +675,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 rs = st.executeQuery("SELECT ref_client,point_client FROM client WHERE nom_prenoms_client = '"+nom_prenom_client+"'");
                 if(rs.next())
                 {
-                    //System.out.println("dedant:"+rs);
+                    System.out.println("dedant:"+rs);
                     ref_client_int = (int) rs.getObject(1);
                     point_cli = (double)rs.getObject(2);
                 }
@@ -691,11 +697,18 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
                 net_a_payer.setText(""+0.0);
                 reduction.setText(""+0.0);
                 affiche_point_client.setText(""+0.0);
+                //reference auto
+                
+                String annee_courante_deux_bit = new SimpleDateFormat("yy").format(new Date());        
+                id_vente_suivant += 1;
+                reference_auto = "BK-000"+id_vente_suivant+"-"+annee_courante_deux_bit;
+                ref_vente_auto.setText(reference_auto);
+                
                 
                 //ref_vente_auto.setText(reference_auto);
 
              } catch (Exception e) {
-                System.out.println("Probleme");
+                pb_validation_vente.setText("Probleme de validation");
         }  
         }
     }//GEN-LAST:event_valider_venteMouseClicked
@@ -979,6 +992,7 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
     private javax.swing.JLabel message_qte_error;
     private javax.swing.JLabel montant_total;
     private javax.swing.JLabel net_a_payer;
+    private javax.swing.JLabel pb_validation_vente;
     private javax.swing.JTable produit_ajoutes;
     private javax.swing.JComboBox produit_choisi;
     private javax.swing.JTextField quantite_prod;
@@ -1001,4 +1015,5 @@ public class Nouvelle_Vente extends javax.swing.JPanel {
     static double poucentage = 0.0002; //1 pt par un achat de 5000
     static boolean point_utilise = false;
     Connection co = null;
+    static int id_vente_suivant;
 }

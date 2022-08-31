@@ -74,6 +74,7 @@ public class Gestion_Produit_Bio extends javax.swing.JFrame {
                        gestion_produit.setVisible(false);
                        gestion_user.setVisible(false);
                        gestion_fournisseurs.setVisible(false);
+                       //tableau_de_bord.setVisible(false);
                        profil_main_jframe.setText("Agent Commercial");
                    }
                    else if(profil_user == 2)

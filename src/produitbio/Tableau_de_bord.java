@@ -275,7 +275,7 @@ public class Tableau_de_bord extends javax.swing.JPanel {
         nombre_client.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 24)); // NOI18N
         nombre_client.setForeground(new java.awt.Color(0, 153, 51));
         jPanel11.add(nombre_client);
-        nombre_client.setBounds(20, 10, 160, 35);
+        nombre_client.setBounds(10, 10, 170, 35);
 
         jLabel5.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 18)); // NOI18N
         jLabel5.setText("NOMBRE DE CLIENTS");
